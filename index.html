@@ -713,7 +713,7 @@
                     }
                     
                     // 서버에 회원가입 요청
-                    fetch('/api/auth/register', {
+                    fetch('https://casa-cinema.vercel.app/api/register', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -763,7 +763,7 @@
                     const password = document.getElementById('login-password').value;
                     
                     // 서버에 로그인 요청
-                    fetch('/api/auth/login', {
+                    fetch('https://casa-cinema.vercel.app/api/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -823,7 +823,7 @@
                 
                 if (token) {
                     // 토큰 유효성 검증
-                    fetch('/api/auth/verify', {
+                    fetch('https://casa-cinema.vercel.app/api/verify', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
