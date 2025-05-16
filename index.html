@@ -385,6 +385,14 @@
             </div>
             <div class="container">
                 <div class="program-schedule">
+                    <!-- 프로그램 내용을 가리는 오버레이 추가 -->
+                    <div id="program-overlay" class="program-overlay">
+                        <div class="overlay-content">
+                            <h3>프로그램 일정 확인하기</h3>
+                            <p>전체 프로그램 일정을 확인하시려면 로그인이 필요합니다.</p>
+                            <button id="login-required-btn" class="cta-button">로그인하기</button>
+                        </div>
+                    </div>
                     <div class="month-calendar">
                         <h3>May 2025</h3>
                         <div class="calendar-day">
@@ -562,6 +570,26 @@
         </section>
     </main>
     
+    <!-- 결제 안내 모달 -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-payment-modal">&times;</span>
+            <h3>프로그램 참여 안내</h3>
+            <p>CINE'MO 프로그램 참여를 위해 아래 계좌로 참가비를 입금해 주세요.</p>
+            <div class="payment-details">
+                <p><strong>참가비:</strong> 10,000원</p>
+                <p><strong>계좌번호:</strong> 우리은행 1002-123-456789</p>
+                <p><strong>예금주:</strong> CINE'MO</p>
+            </div>
+            <div class="form-group">
+                <label for="payment-name">입금자명</label>
+                <input type="text" id="payment-name" name="payment-name" placeholder="입금자명" required>
+            </div>
+            <div class="form-message" id="payment-message"></div>
+            <button id="confirm-payment-btn" class="cta-button">확인</button>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -783,6 +811,9 @@
                             // 로그인 상태 갱신
                             updateAuthUI(true, data.user.name);
                             
+                            // 결제 상태 확인
+                            checkAuthAndPaymentStatus();
+                            
                             // 폼 초기화
                             loginForm.reset();
                             
@@ -898,6 +929,145 @@
                     imageObserver.observe(img);
                 });
             }
+
+            // 프로그램 섹션 및 결제 모달 관련 기능
+            const programSection = document.getElementById('program');
+            const programOverlay = document.getElementById('program-overlay');
+            const loginRequiredBtn = document.getElementById('login-required-btn');
+            const paymentModal = document.getElementById('payment-modal');
+            const closePaymentModal = document.getElementById('close-payment-modal');
+            const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
+            const paymentMessage = document.getElementById('payment-message');
+
+            // 프로그램 섹션 클릭 핸들러
+            if (programSection && programOverlay && loginRequiredBtn) {
+                // 프로그램 섹션 내 오버레이 처리
+                loginRequiredBtn.addEventListener('click', function() {
+                    const token = localStorage.getItem('token');
+                    
+                    if (token) {
+                        // 이미 로그인된 경우 결제 안내 모달 표시
+                        programOverlay.style.display = 'none';
+                        paymentModal.style.display = 'flex';
+                    } else {
+                        // 로그인 필요한 경우 로그인 모달 표시
+                        loginModal.style.display = 'flex';
+                    }
+                });
+            }
+
+            // 결제 모달 닫기
+            if (closePaymentModal) {
+                closePaymentModal.addEventListener('click', function() {
+                    paymentModal.style.display = 'none';
+                });
+            }
+
+            // 결제 확인 버튼 처리
+            if (confirmPaymentBtn) {
+                confirmPaymentBtn.addEventListener('click', function() {
+                    const paymentName = document.getElementById('payment-name').value;
+                    if (!paymentName) {
+                        paymentMessage.textContent = '입금자명을 입력해주세요.';
+                        paymentMessage.classList.add('error');
+                        return;
+                    }
+
+                    const token = localStorage.getItem('token');
+                    
+                    // 서버에 결제 정보 저장 요청
+                    fetch('https://casa-cinema.vercel.app/api/payment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ 
+                            paymentName: paymentName,
+                            amount: 10000,
+                            program: '프로그램 참여'
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            paymentMessage.textContent = '입금 확인이 완료되었습니다. 프로그램에 참여해 주셔서 감사합니다!';
+                            paymentMessage.classList.remove('error');
+                            paymentMessage.classList.add('success');
+                            
+                            // 프로그램 오버레이 제거 (프로그램 컨텐츠 표시)
+                            programOverlay.style.display = 'none';
+                            
+                            // 3초 후 모달 닫기
+                            setTimeout(() => {
+                                paymentModal.style.display = 'none';
+                                paymentMessage.textContent = '';
+                                paymentMessage.classList.remove('success');
+                            }, 3000);
+                        } else {
+                            paymentMessage.textContent = data.message || '처리 중 오류가 발생했습니다.';
+                            paymentMessage.classList.add('error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        paymentMessage.textContent = '서버와의 통신 중 오류가 발생했습니다.';
+                        paymentMessage.classList.add('error');
+                    });
+                });
+            }
+
+            // 인증 상태에 따른 프로그램 섹션 UI 업데이트
+            function updateProgramUI(isLoggedIn, hasPayment) {
+                if (programOverlay) {
+                    if (isLoggedIn && hasPayment) {
+                        // 로그인 및 결제 완료된 경우 오버레이 숨김
+                        programOverlay.style.display = 'none';
+                    } else {
+                        // 그 외의 경우 오버레이 표시
+                        programOverlay.style.display = 'flex';
+                    }
+                }
+            }
+
+            // 페이지 로드 시 인증 및 결제 상태 확인
+            function checkAuthAndPaymentStatus() {
+                const token = localStorage.getItem('token');
+                
+                if (token) {
+                    // 토큰 유효성 및 결제 상태 검증
+                    fetch('https://casa-cinema.vercel.app/api/check-payment', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            updateAuthUI(true, data.user.name);
+                            updateProgramUI(true, data.hasPayment);
+                        } else {
+                            // 토큰이 유효하지 않으면 로그아웃 처리
+                            localStorage.removeItem('token');
+                            updateAuthUI(false);
+                            updateProgramUI(false, false);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        localStorage.removeItem('token');
+                        updateAuthUI(false);
+                        updateProgramUI(false, false);
+                    });
+                } else {
+                    updateAuthUI(false);
+                    updateProgramUI(false, false);
+                }
+            }
+            
+            // 초기 인증 및 결제 상태 확인
+            checkAuthAndPaymentStatus();
         });
     </script>
 </body>
