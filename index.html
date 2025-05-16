@@ -900,10 +900,31 @@
                             top: targetPosition,
                             behavior: 'smooth'
                         });
+                        
+                        // URL 해시 업데이트 (브라우저 히스토리에 기록)
+                        history.pushState(null, null, targetId);
                     }
                 });
             });
             
+            // 페이지 로드 시 URL 해시가 있으면 해당 섹션으로 스크롤
+            if (window.location.hash) {
+                const targetId = window.location.hash;
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    setTimeout(() => {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 300); // 페이지 로드 후 약간의 지연 시간을 줌
+                }
+            }
+
             // 이미지 지연 로딩 
             const images = document.querySelectorAll('img');
             
