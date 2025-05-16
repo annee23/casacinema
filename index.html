@@ -86,6 +86,36 @@
                 max-width: 200px;
             }
         }
+
+        /* 프로그램 항목 클릭 스타일 */
+        .program-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .program-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .program-item::after {
+            content: '클릭하여 참여하기';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px;
+            background-color: var(--accent);
+            color: var(--light);
+            text-align: center;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .program-item:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -400,7 +430,7 @@
                                 <div class="day-name">Sat</div>
                                 <div class="day-number">10</div>
                             </div>
-                            <div class="movie-info">
+                            <div class="movie-info program-item">
                                 <div class="movie-details">
                                     <h4>해피엔드</h4>
                                     <p class="time">8:30 PM ~ 10:00 PM</p>
@@ -416,7 +446,7 @@
                                 <div class="day-name">Wed</div>
                                 <div class="day-number">14</div>
                             </div>
-                            <div class="movie-info">
+                            <div class="movie-info program-item">
                                 <div class="movie-details">
                                     <h4>그 자연이 네게 뭐라고 하니</h4>
                                     <p class="time">7:30 PM ~ 9:30 PM</p>
@@ -432,7 +462,7 @@
                                 <div class="day-name">Thu</div>
                                 <div class="day-number">15</div>
                             </div>
-                            <div class="movie-info">
+                            <div class="movie-info program-item">
                                 <div class="movie-details">
                                     <h4>상상마당</h4>
                                     <p class="time">8:00 PM ~ 9:00 PM</p>
@@ -448,7 +478,7 @@
                                 <div class="day-name">Sat</div>
                                 <div class="day-number">17</div>
                             </div>
-                            <div class="movie-info">
+                            <div class="movie-info program-item">
                                 <div class="movie-details">
                                     <h4>아멜리에</h4>
                                     <p class="time">9:50 AM ~ 11:50 AM</p>
@@ -464,7 +494,7 @@
                                 <div class="day-name">Mon</div>
                                 <div class="day-number">19</div>
                             </div>
-                            <div class="movie-info">
+                            <div class="movie-info program-item">
                                 <div class="movie-details">
                                     <h4>이제 다시 시작하려고 해</h4>
                                     <p class="time">7:00 PM ~ 9:00 PM</p>
@@ -480,7 +510,7 @@
                                 <div class="day-name">Sat</div>
                                 <div class="day-number">24</div>
                             </div>
-                            <div class="movie-info">
+                            <div class="movie-info program-item">
                                 <div class="movie-details">
                                     <h4>미션 임파서블</h4>
                                     <p class="time">4:30 PM ~ 7:30 PM</p>
@@ -968,9 +998,39 @@
             const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
             const paymentMessage = document.getElementById('payment-message');
 
-            // 프로그램 섹션 클릭 핸들러
+            // 각 프로그램 항목 클릭 처리
+            const programItems = document.querySelectorAll('.program-item');
+            if (programItems.length > 0) {
+                programItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const token = localStorage.getItem('token');
+                        const movieTitle = this.querySelector('h4').textContent;
+                        const movieTime = this.querySelector('.time').textContent;
+                        
+                        if (token) {
+                            // 로그인 된 경우 - 결제 모달 표시 및 프로그램 정보 업데이트
+                            const paymentDetails = document.querySelector('.payment-details');
+                            if (paymentDetails) {
+                                // 결제 정보에 선택한 프로그램 정보 추가
+                                const programInfo = `<p><strong>프로그램:</strong> ${movieTitle} (${movieTime})</p>`;
+                                paymentDetails.innerHTML = `
+                                    <p><strong>참가비:</strong> 10,000원</p>
+                                    <p><strong>계좌번호:</strong> 우리은행 1002-123-456789</p>
+                                    <p><strong>예금주:</strong> CINE'MO</p>
+                                    ${programInfo}
+                                `;
+                            }
+                            paymentModal.style.display = 'flex';
+                        } else {
+                            // 로그인 필요한 경우 로그인 모달 표시
+                            loginModal.style.display = 'flex';
+                        }
+                    });
+                });
+            }
+
+            // 프로그램 섹션 내 오버레이 버튼 클릭 핸들러
             if (programSection && programOverlay && loginRequiredBtn) {
-                // 프로그램 섹션 내 오버레이 처리
                 loginRequiredBtn.addEventListener('click', function() {
                     const token = localStorage.getItem('token');
                     
@@ -1004,6 +1064,15 @@
 
                     const token = localStorage.getItem('token');
                     
+                    // 선택한 프로그램 정보 가져오기
+                    const programDetails = document.querySelector('.payment-details p:last-child');
+                    let programTitle = '프로그램 참여'; // 기본값
+                    
+                    if (programDetails && programDetails.textContent.includes('프로그램:')) {
+                        const programText = programDetails.textContent;
+                        programTitle = programText.substring(programText.indexOf('프로그램:') + 6).trim();
+                    }
+                    
                     // 서버에 결제 정보 저장 요청
                     fetch('/api/payment', {
                         method: 'POST',
@@ -1014,7 +1083,7 @@
                         body: JSON.stringify({ 
                             paymentName: paymentName,
                             amount: 10000,
-                            program: '프로그램 참여'
+                            program: programTitle
                         })
                     })
                     .then(response => response.json())
