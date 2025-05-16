@@ -1,11 +1,7 @@
-// 간단한 로그인 API 구현
-const jwt = require('jsonwebtoken');
+// 로그인 API 구현
 const userStore = require('../store/users');
 
-// JWT 서명 키 (실제 프로덕션에서는 환경 변수 등으로 관리해야 함)
-const JWT_SECRET = 'cinemo-secret-key';
-
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   // CORS 헤더 설정
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -30,18 +26,14 @@ module.exports = (req, res) => {
     }
     
     // 사용자 확인 (userStore 사용)
-    const user = userStore.findUserByCredentials(email, password);
+    const user = await userStore.findUserByCredentials(email, password);
     
     if (!user) {
       return res.status(401).json({ success: false, message: '이메일 또는 비밀번호가 일치하지 않습니다.' });
     }
     
-    // JWT 토큰 생성 (유효기간: 7일)
-    const token = jwt.sign(
-      { userId: user.id, email: user.email, name: user.name },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    // 토큰 생성
+    const token = userStore.generateToken(user);
     
     // 성공 응답 반환
     return res.status(200).json({

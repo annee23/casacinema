@@ -2,22 +2,21 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    // MongoDB URI가 없는 경우 연결하지 않고 메시지만 출력
-    if (!process.env.MONGO_URI) {
-      console.log('MongoDB URI가 설정되지 않았습니다. 연결을 건너뜁니다.');
-      return;
-    }
+    // MongoDB URI - 환경 변수에서 가져오거나 기본값 사용
+    const mongoURI = process.env.MONGO_URI || 'mongodb+srv://admin:adminPassword@cluster0.mongodb.net/casacinema?retryWrites=true&w=majority';
     
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
+    return conn;
   } catch (error) {
     console.error(`Error: ${error.message}`);
-    // 서버 종료 대신 로그만 출력
+    // 오류 발생시 메시지 출력
     console.log('데이터베이스 연결에 실패했습니다. 일부 기능이 작동하지 않을 수 있습니다.');
+    return null;
   }
 };
 

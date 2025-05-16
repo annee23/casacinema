@@ -1,11 +1,8 @@
 // 결제 정보 저장 API 구현
-const jwt = require('jsonwebtoken');
+const userStore = require('../store/users');
 const paymentStore = require('../store/payments');
 
-// JWT 서명 키
-const JWT_SECRET = 'cinemo-secret-key';
-
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   // CORS 헤더 설정
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -39,35 +36,32 @@ module.exports = (req, res) => {
     }
     
     // 토큰 검증
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-        if (err.name === 'TokenExpiredError') {
-          return res.status(401).json({ success: false, message: '인증 토큰이 만료되었습니다.' });
-        }
-        
-        return res.status(401).json({ success: false, message: '유효하지 않은 인증 토큰입니다.' });
-      }
-      
-      // 결제 정보 저장 (메모리 기반 저장소 사용)
-      const savedPayment = paymentStore.addPayment({
-        userId: decoded.userId,
-        paymentName,
-        amount,
-        program
-      });
-      
-      if (savedPayment) {
-        return res.status(200).json({
-          success: true,
-          message: '결제 정보가 성공적으로 저장되었습니다.'
-        });
-      } else {
-        return res.status(500).json({
-          success: false,
-          message: '결제 정보 저장 중 오류가 발생했습니다.'
-        });
-      }
+    const decoded = await userStore.verifyToken(token);
+    
+    if (!decoded) {
+      return res.status(401).json({ success: false, message: '유효하지 않은 인증 토큰입니다.' });
+    }
+    
+    // 결제 정보 저장 (MongoDB 기반 저장소 사용)
+    const savedPayment = await paymentStore.addPayment({
+      userId: decoded.userId,
+      paymentName,
+      amount,
+      program
     });
+    
+    if (savedPayment) {
+      return res.status(200).json({
+        success: true,
+        message: '결제 정보가 성공적으로 저장되었습니다.',
+        payment: savedPayment
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: '결제 정보 저장 중 오류가 발생했습니다.'
+      });
+    }
   } catch (error) {
     console.error('결제 정보 처리 오류:', error);
     return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });

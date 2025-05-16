@@ -1,7 +1,7 @@
-// 간단한 회원가입 API 구현
+// 회원가입 API 구현
 const userStore = require('../store/users');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   // CORS 헤더 설정
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -37,14 +37,18 @@ module.exports = (req, res) => {
     }
     
     // 이메일 중복 확인
-    if (userStore.isEmailExists(email)) {
+    const emailExists = await userStore.isEmailExists(email);
+    if (emailExists) {
       return res.status(409).json({ success: false, message: '이미 사용 중인 이메일입니다.' });
     }
     
     // 사용자 저장
-    const user = userStore.addUser({ name, email, password });
+    const user = await userStore.addUser({ name, email, password });
     
     if (user) {
+      // 토큰 생성 (회원가입 후 자동 로그인을 위해)
+      const token = userStore.generateToken(user);
+      
       return res.status(201).json({ 
         success: true, 
         message: '회원가입이 완료되었습니다.',
@@ -52,7 +56,8 @@ module.exports = (req, res) => {
           id: user.id,
           name: user.name,
           email: user.email
-        }
+        },
+        token
       });
     } else {
       return res.status(500).json({ success: false, message: '사용자 정보 저장 중 오류가 발생했습니다.' });

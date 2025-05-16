@@ -1,69 +1,123 @@
 /**
- * 메모리 기반 사용자 저장소 구현
- * 서버리스 환경에서 사용하기 위한 인메모리 DB
+ * MongoDB 기반 사용자 저장소 구현
  */
+const User = require('../models/User');
+const connectDB = require('../config/db');
+const jwt = require('jsonwebtoken');
 
-// 인메모리 사용자 저장소
-const users = [
-  {
-    id: 1,
-    email: 'test@example.com',
-    password: 'test1234',
-    name: '테스트 사용자'
+// JWT 비밀 키
+const JWT_SECRET = 'cinemo-secret-key';
+
+// 이메일이 이미 존재하는지 확인
+const isEmailExists = async (email) => {
+  try {
+    await connectDB();
+    const user = await User.findOne({ email });
+    return !!user;
+  } catch (error) {
+    console.error('이메일 조회 오류:', error);
+    return false;
   }
-];
-
-// 다음 사용자 ID (자동 증가)
-let nextId = 2;
-
-/**
- * 이메일이 이미 존재하는지 확인
- * @param {string} email - 확인할 이메일
- * @returns {boolean} 이메일 존재 여부
- */
-const isEmailExists = (email) => {
-  return users.some(user => user.email === email);
 };
 
-/**
- * 새 사용자 추가
- * @param {object} userData - 사용자 데이터 (이름, 이메일, 비밀번호)
- * @returns {object|null} 추가된 사용자 객체 또는 실패 시 null
- */
-const addUser = (userData) => {
+// 새 사용자 추가
+const addUser = async (userData) => {
   try {
-    const newUser = {
-      id: nextId++,
+    await connectDB();
+    const newUser = new User({
       name: userData.name,
       email: userData.email,
-      password: userData.password // 실제 프로덕션에서는 반드시 암호화해야 함
-    };
+      password: userData.password
+    });
     
-    users.push(newUser);
-    return newUser;
+    const savedUser = await newUser.save();
+    return {
+      id: savedUser._id,
+      name: savedUser.name,
+      email: savedUser.email
+    };
   } catch (error) {
     console.error('사용자 추가 오류:', error);
     return null;
   }
 };
 
-/**
- * 이메일과 비밀번호로 사용자 찾기 (로그인용)
- * @param {string} email - 사용자 이메일
- * @param {string} password - 사용자 비밀번호
- * @returns {object|null} 찾은 사용자 객체 또는 없을 경우 null
- */
-const findUserByCredentials = (email, password) => {
-  return users.find(user => user.email === email && user.password === password) || null;
+// 이메일과 비밀번호로 사용자 찾기 (로그인용)
+const findUserByCredentials = async (email, password) => {
+  try {
+    await connectDB();
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      return null;
+    }
+    
+    const isMatch = await user.matchPassword(password);
+    
+    if (!isMatch) {
+      return null;
+    }
+    
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email
+    };
+  } catch (error) {
+    console.error('사용자 조회 오류:', error);
+    return null;
+  }
 };
 
-/**
- * 사용자 ID로 사용자 찾기
- * @param {number} id - 사용자 ID
- * @returns {object|null} 찾은 사용자 객체 또는 없을 경우 null
- */
-const findUserById = (id) => {
-  return users.find(user => user.id === id) || null;
+// 사용자 ID로 사용자 찾기
+const findUserById = async (id) => {
+  try {
+    await connectDB();
+    const user = await User.findById(id);
+    
+    if (!user) {
+      return null;
+    }
+    
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email
+    };
+  } catch (error) {
+    console.error('사용자 ID 조회 오류:', error);
+    return null;
+  }
+};
+
+// JWT 토큰 검증
+const verifyToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await findUserById(decoded.userId);
+    
+    if (!user) {
+      return null;
+    }
+    
+    return {
+      userId: decoded.userId,
+      name: user.name,
+      email: user.email
+    };
+  } catch (error) {
+    console.error('토큰 검증 오류:', error);
+    return null;
+  }
+};
+
+// 토큰 생성
+const generateToken = (user) => {
+  return jwt.sign(
+    { userId: user.id, email: user.email, name: user.name },
+    JWT_SECRET,
+    { expiresIn: '7d' }
+  );
 };
 
 // 모듈 내보내기
@@ -71,5 +125,7 @@ module.exports = {
   isEmailExists,
   addUser,
   findUserByCredentials,
-  findUserById
+  findUserById,
+  verifyToken,
+  generateToken
 }; 
