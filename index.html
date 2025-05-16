@@ -884,6 +884,28 @@
             checkAuthStatus();
             
             // 스무스 스크롤 (iOS 호환성)
+            function scrollToSection(id) {
+                const targetElement = document.querySelector(id);
+                if (targetElement) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 모바일 메뉴가 열려있는 경우 닫기
+                    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+                    const nav = document.querySelector('nav');
+                    if (mobileMenuToggle && mobileMenuToggle.classList.contains('active')) {
+                        mobileMenuToggle.classList.remove('active');
+                        nav.classList.remove('active');
+                    }
+                }
+            }
+            
+            // 모든 메뉴 링크에 클릭 이벤트 추가
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -891,42 +913,25 @@
                     const targetId = this.getAttribute('href');
                     if (targetId === '#') return;
                     
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        const headerHeight = document.querySelector('header').offsetHeight;
-                        
-                        // 단순화된 스크롤 방식 사용
-                        window.scrollTo({
-                            top: targetElement.offsetTop - headerHeight,
-                            behavior: 'smooth'
-                        });
-                        
-                        // 모바일 메뉴가 열려있는 경우 닫기
-                        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-                        const nav = document.querySelector('nav');
-                        if (mobileMenuToggle && mobileMenuToggle.classList.contains('active')) {
-                            mobileMenuToggle.classList.remove('active');
-                            nav.classList.remove('active');
-                        }
-                    }
+                    scrollToSection(targetId);
                 });
             });
             
             // 페이지 로드 시 URL 해시가 있으면 해당 섹션으로 스크롤
             if (window.location.hash) {
-                const targetId = window.location.hash;
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    setTimeout(() => {
-                        const headerHeight = document.querySelector('header').offsetHeight;
-                        window.scrollTo({
-                            top: targetElement.offsetTop - headerHeight,
-                            behavior: 'smooth'
-                        });
-                    }, 300); // 페이지 로드 후 약간의 지연 시간을 줌
-                }
+                setTimeout(() => {
+                    scrollToSection(window.location.hash);
+                }, 300); // 페이지 로드 후 약간의 지연 시간을 줌
             }
+            
+            // 로고 클릭 시 맨 위로 스크롤
+            document.querySelector('.logo').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
 
             // 이미지 지연 로딩 
             const images = document.querySelectorAll('img');
