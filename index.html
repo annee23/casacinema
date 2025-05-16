@@ -91,6 +91,8 @@
         .program-item {
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .program-item:hover {
@@ -98,35 +100,51 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
-        .program-item::after {
-            content: '클릭하여 참여하기';
+        .program-item .join-overlay {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            padding: 8px;
-            background-color: var(--accent);
-            color: var(--light);
-            text-align: center;
-            font-size: 14px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
         
-        .program-item:hover::after {
+        .program-item:hover .join-overlay {
             opacity: 1;
         }
-
+        
+        .program-item .join-btn {
+            padding: 8px 16px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .program-item .join-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
         /* 회원가입 링크 스타일 수정 */
         .signup-link {
-            color: var(--accent); /* 기본색상 수정 */
+            color: #888; /* 회색으로 변경 */
             font-weight: 500;
             text-decoration: none;
             transition: color 0.3s ease;
         }
         
         .signup-link:hover {
-            color: #fff; /* 호버 효과 색상 */
+            color: var(--accent); /* 호버 효과 색상 */
             text-decoration: underline;
         }
     </style>
@@ -452,6 +470,14 @@
                                 <div class="movie-poster">
                                     <img src="images/test.png" alt="해피엔드">
                                 </div>
+                                <div class="join-overlay">
+                                    <button class="join-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                        </svg>
+                                        참여하기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="calendar-day">
@@ -467,6 +493,14 @@
                                 </div>
                                 <div class="movie-poster">
                                     <img src="images/test2.png" alt="그 자연이 네게 뭐라고 하니">
+                                </div>
+                                <div class="join-overlay">
+                                    <button class="join-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                        </svg>
+                                        참여하기
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -484,6 +518,14 @@
                                 <div class="movie-poster">
                                     <img src="images/test3.png" alt="웨스 앤더슨">
                                 </div>
+                                <div class="join-overlay">
+                                    <button class="join-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                        </svg>
+                                        참여하기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="calendar-day">
@@ -499,6 +541,14 @@
                                 </div>
                                 <div class="movie-poster">
                                     <img src="images/test4.png" alt="아멜리에">
+                                </div>
+                                <div class="join-overlay">
+                                    <button class="join-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                        </svg>
+                                        참여하기
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -516,6 +566,14 @@
                                 <div class="movie-poster">
                                     <img src="images/test5.png" alt="이제 다시 시작하려고 해">
                                 </div>
+                                <div class="join-overlay">
+                                    <button class="join-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                        </svg>
+                                        참여하기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="calendar-day">
@@ -531,6 +589,14 @@
                                 </div>
                                 <div class="movie-poster">
                                     <img src="images/test.png" alt="미션 임파서블">
+                                </div>
+                                <div class="join-overlay">
+                                    <button class="join-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                        </svg>
+                                        참여하기
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -654,7 +720,7 @@
                 </div>
             </div>
             <div class="copyright">
-                © 2025 CINE'MO. All rights reserved.
+                © 2025 CASA CINEMA. All rights reserved.
             </div>
         </div>
     </footer>
@@ -1049,30 +1115,36 @@
             const programItems = document.querySelectorAll('.program-item');
             if (programItems.length > 0) {
                 programItems.forEach(item => {
-                    item.addEventListener('click', function() {
-                        const token = localStorage.getItem('token');
-                        const movieTitle = this.querySelector('h4').textContent;
-                        const movieTime = this.querySelector('.time').textContent;
-                        
-                        if (token) {
-                            // 로그인 된 경우 - 결제 모달 표시 및 프로그램 정보 업데이트
-                            const paymentDetails = document.querySelector('.payment-details');
-                            if (paymentDetails) {
-                                // 결제 정보에 선택한 프로그램 정보 추가
-                                const programInfo = `<p><strong>프로그램:</strong> ${movieTitle} (${movieTime})</p>`;
-                                paymentDetails.innerHTML = `
-                                    <p><strong>참가비:</strong> 10,000원</p>
-                                    <p><strong>계좌번호:</strong> 우리은행 1002-123-456789</p>
-                                    <p><strong>예금주:</strong> CINE'MO</p>
-                                    ${programInfo}
-                                `;
+                    // 항목 내 참여하기 버튼 클릭 이벤트 처리
+                    const joinBtn = item.querySelector('.join-btn');
+                    if (joinBtn) {
+                        joinBtn.addEventListener('click', function(e) {
+                            e.stopPropagation(); // 버블링 방지
+                            
+                            const token = localStorage.getItem('token');
+                            const movieTitle = item.querySelector('h4').textContent;
+                            const movieTime = item.querySelector('.time').textContent;
+                            
+                            if (token) {
+                                // 로그인 된 경우 - 결제 모달 표시 및 프로그램 정보 업데이트
+                                const paymentDetails = document.querySelector('.payment-details');
+                                if (paymentDetails) {
+                                    // 결제 정보에 선택한 프로그램 정보 추가
+                                    const programInfo = `<p><strong>프로그램:</strong> ${movieTitle} (${movieTime})</p>`;
+                                    paymentDetails.innerHTML = `
+                                        <p><strong>참가비:</strong> 10,000원</p>
+                                        <p><strong>계좌번호:</strong> 우리은행 1002-123-456789</p>
+                                        <p><strong>예금주:</strong> CINE'MO</p>
+                                        ${programInfo}
+                                    `;
+                                }
+                                paymentModal.style.display = 'flex';
+                            } else {
+                                // 로그인 필요한 경우 로그인 모달 표시
+                                loginModal.style.display = 'flex';
                             }
-                            paymentModal.style.display = 'flex';
-                        } else {
-                            // 로그인 필요한 경우 로그인 모달 표시
-                            loginModal.style.display = 'flex';
-                        }
-                    });
+                        });
+                    }
                 });
             }
 
