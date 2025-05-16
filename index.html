@@ -741,7 +741,7 @@
                     }
                     
                     // 서버에 회원가입 요청
-                    fetch('https://casa-cinema.vercel.app/api/register', {
+                    fetch('/api/register', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -791,7 +791,7 @@
                     const password = document.getElementById('login-password').value;
                     
                     // 서버에 로그인 요청
-                    fetch('https://casa-cinema.vercel.app/api/login', {
+                    fetch('/api/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -854,7 +854,7 @@
                 
                 if (token) {
                     // 토큰 유효성 검증
-                    fetch('https://casa-cinema.vercel.app/api/verify', {
+                    fetch('/api/verify', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -894,15 +894,20 @@
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         const headerHeight = document.querySelector('header').offsetHeight;
-                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
                         
+                        // 단순화된 스크롤 방식 사용
                         window.scrollTo({
-                            top: targetPosition,
+                            top: targetElement.offsetTop - headerHeight,
                             behavior: 'smooth'
                         });
                         
-                        // URL 해시 업데이트 (브라우저 히스토리에 기록)
-                        history.pushState(null, null, targetId);
+                        // 모바일 메뉴가 열려있는 경우 닫기
+                        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+                        const nav = document.querySelector('nav');
+                        if (mobileMenuToggle && mobileMenuToggle.classList.contains('active')) {
+                            mobileMenuToggle.classList.remove('active');
+                            nav.classList.remove('active');
+                        }
                     }
                 });
             });
@@ -915,10 +920,8 @@
                 if (targetElement) {
                     setTimeout(() => {
                         const headerHeight = document.querySelector('header').offsetHeight;
-                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                        
                         window.scrollTo({
-                            top: targetPosition,
+                            top: targetElement.offsetTop - headerHeight,
                             behavior: 'smooth'
                         });
                     }, 300); // 페이지 로드 후 약간의 지연 시간을 줌
@@ -997,7 +1000,7 @@
                     const token = localStorage.getItem('token');
                     
                     // 서버에 결제 정보 저장 요청
-                    fetch('https://casa-cinema.vercel.app/api/payment', {
+                    fetch('/api/payment', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1057,7 +1060,7 @@
                 
                 if (token) {
                     // 토큰 유효성 및 결제 상태 검증
-                    fetch('https://casa-cinema.vercel.app/api/check-payment', {
+                    fetch('/api/check-payment', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`

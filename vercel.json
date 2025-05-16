@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/api/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "styles.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "images/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/login",
+      "dest": "/backend/api/login.js"
+    },
+    {
+      "src": "/api/register",
+      "dest": "/backend/api/register.js"
+    },
+    {
+      "src": "/api/verify",
+      "dest": "/backend/api/verify.js"
+    },
+    {
+      "src": "/api/payment",
+      "dest": "/backend/api/payment.js"
+    },
+    {
+      "src": "/api/check-payment",
+      "dest": "/backend/api/check-payment.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+} 
