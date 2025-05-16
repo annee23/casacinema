@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
     <title>CINE'MO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>C</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,6 +85,154 @@
                 width: 80%;
                 max-width: 200px;
             }
+            
+            /* 모바일 폰트 크기 조정 */
+            html {
+                font-size: 14px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            h3 {
+                font-size: 1.4rem;
+            }
+            
+            h4 {
+                font-size: 1.2rem;
+            }
+            
+            p {
+                font-size: 0.95rem;
+            }
+            
+            .hero-description {
+                font-size: 0.95rem;
+            }
+            
+            /* 버튼 및 UI 요소 크기 조정 */
+            .cta-button {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .cta-button.small {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            
+            /* 프로그램 항목 모바일 스타일 */
+            .program-item {
+                cursor: pointer;
+                min-height: 80px;
+            }
+            
+            .program-item .join-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .program-item .join-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+            
+            /* 섹션 패딩 조정 */
+            section {
+                padding: 60px 0;
+            }
+            
+            /* 그리드 레이아웃 조정 */
+            .services-grid, .gallery-grid, .categories-grid, .tickets-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            /* 푸터 조정 */
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .footer-links a {
+                font-size: 0.85rem;
+                margin: 0 5px;
+            }
+            
+            /* 모바일에서는 오버레이와 버튼 항상 표시 */
+            .program-item .join-overlay {
+                opacity: 1;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1));
+            }
+            
+            .program-item .join-btn {
+                transform: translateY(0);
+                opacity: 1;
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                animation: none; /* 모바일에서는 애니메이션 비활성화 */
+            }
+            
+            /* 모바일에서는 호버 효과 제거 (터치 기기에서는 불필요함) */
+            .program-item:hover {
+                transform: none;
+            }
+            
+            .program-item:hover .join-overlay {
+                opacity: 1;
+            }
+            
+            .program-item:hover .join-btn {
+                transform: translateY(0);
+            }
+        }
+        
+        /* 작은 모바일 화면에 대한 추가 조정 */
+        @media (max-width: 480px) {
+            html {
+                font-size: 13px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .join-form, .join-text {
+                padding: 20px;
+            }
+            
+            .movie-info h4 {
+                font-size: 1.1rem;
+            }
+            
+            .movie-info .time, .movie-info .location {
+                font-size: 0.85rem;
+            }
+            
+            .program-item .join-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            .program-item .join-btn svg {
+                width: 16px;
+                height: 16px;
+            }
         }
 
         /* 프로그램 항목 클릭 스타일 */
@@ -93,11 +241,19 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(0,0,0,0); /* 모바일에서 탭 하이라이트 제거 */
+            touch-action: manipulation; /* 터치 동작 최적화 */
+        }
+        
+        .program-item:active {
+            transform: scale(0.98); /* 터치 시 약간 축소 효과 */
+            background-color: rgba(255, 255, 255, 0.05); /* 터치 시 배경색 약간 변경 */
         }
         
         .program-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
         
         .program-item .join-overlay {
@@ -106,12 +262,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .program-item:hover .join-overlay {
@@ -119,20 +275,46 @@
         }
         
         .program-item .join-btn {
-            padding: 8px 16px;
-            background-color: var(--accent);
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--accent), #ff8a00);
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 14px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(255, 94, 0, 0.4);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+        
+        .program-item:hover .join-btn {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .program-item .join-btn:hover {
+            background: linear-gradient(135deg, #ff8a00, var(--accent));
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 94, 0, 0.5);
         }
         
         .program-item .join-btn svg {
-            width: 16px;
-            height: 16px;
+            width: 22px;
+            height: 22px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         /* 회원가입 링크 스타일 수정 */
@@ -473,9 +655,9 @@
                                 <div class="join-overlay">
                                     <button class="join-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4z"/>
                                         </svg>
-                                        참여하기
+                                        지금 참여하기
                                     </button>
                                 </div>
                             </div>
@@ -497,9 +679,9 @@
                                 <div class="join-overlay">
                                     <button class="join-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4z"/>
                                         </svg>
-                                        참여하기
+                                        지금 참여하기
                                     </button>
                                 </div>
                             </div>
@@ -521,9 +703,9 @@
                                 <div class="join-overlay">
                                     <button class="join-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4z"/>
                                         </svg>
-                                        참여하기
+                                        지금 참여하기
                                     </button>
                                 </div>
                             </div>
@@ -545,9 +727,9 @@
                                 <div class="join-overlay">
                                     <button class="join-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4z"/>
                                         </svg>
-                                        참여하기
+                                        지금 참여하기
                                     </button>
                                 </div>
                             </div>
@@ -569,9 +751,9 @@
                                 <div class="join-overlay">
                                     <button class="join-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4z"/>
                                         </svg>
-                                        참여하기
+                                        지금 참여하기
                                     </button>
                                 </div>
                             </div>
@@ -593,9 +775,9 @@
                                 <div class="join-overlay">
                                     <button class="join-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4z"/>
                                         </svg>
-                                        참여하기
+                                        지금 참여하기
                                     </button>
                                 </div>
                             </div>
@@ -959,11 +1141,39 @@
                         // 로그아웃 이벤트 리스너 추가
                         newButton.addEventListener('click', function(e) {
                             e.preventDefault();
-                            if (confirm('로그아웃 하시겠습니까?')) {
+                            
+                            // 로그아웃 확인 대화상자 생성
+                            const confirmDialog = document.createElement('div');
+                            confirmDialog.className = 'modal';
+                            confirmDialog.style.display = 'flex';
+                            confirmDialog.innerHTML = `
+                                <div class="modal-content" style="max-width: 400px; padding: 20px;">
+                                    <h3>로그아웃 확인</h3>
+                                    <p>정말 로그아웃 하시겠습니까?</p>
+                                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                                        <button id="logout-cancel" class="cta-button" style="background: #666;">취소</button>
+                                        <button id="logout-confirm" class="cta-button">확인</button>
+                                    </div>
+                                </div>
+                            `;
+                            document.body.appendChild(confirmDialog);
+                            
+                            // 취소 버튼 이벤트
+                            document.getElementById('logout-cancel').addEventListener('click', function() {
+                                document.body.removeChild(confirmDialog);
+                            });
+                            
+                            // 확인 버튼 이벤트
+                            document.getElementById('logout-confirm').addEventListener('click', function() {
                                 // 로그아웃 처리
                                 localStorage.removeItem('token');
                                 updateAuthUI(false);
                                 updateProgramUI(false, false);
+                                
+                                // 확인 대화상자 제거
+                                document.body.removeChild(confirmDialog);
+                                
+                                // 로그아웃 알림
                                 alert('로그아웃 되었습니다.');
                                 
                                 // 페이지 맨 위로 이동
@@ -971,7 +1181,7 @@
                                     top: 0,
                                     behavior: 'smooth'
                                 });
-                            }
+                            });
                         });
                     }
                 } else if (loginButton) {
@@ -1030,11 +1240,17 @@
             function scrollToSection(id) {
                 const targetElement = document.querySelector(id);
                 if (targetElement) {
+                    // 헤더 높이 계산
                     const headerHeight = document.querySelector('header').offsetHeight;
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
                     
+                    // 요소의 실제 위치 계산
+                    const elementRect = targetElement.getBoundingClientRect();
+                    const absoluteElementTop = elementRect.top + window.pageYOffset;
+                    const scrollPosition = absoluteElementTop - headerHeight - 20; // 여유 공간 20px 추가
+                    
+                    // 스크롤 실행
                     window.scrollTo({
-                        top: targetPosition,
+                        top: scrollPosition,
                         behavior: 'smooth'
                     });
                     
@@ -1054,8 +1270,15 @@
                     e.preventDefault();
                     
                     const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
+                    if (targetId === '#') return; // 빈 링크는 무시
                     
+                    // 로그인 버튼은 별도 처리
+                    if (this.classList.contains('buy-tickets')) {
+                        // 로그인/로그아웃 버튼은 별도 처리하므로 여기서는 return
+                        return;
+                    }
+                    
+                    // 스크롤 실행
                     scrollToSection(targetId);
                 });
             });
@@ -1063,13 +1286,19 @@
             // 페이지 로드 시 URL 해시가 있으면 해당 섹션으로 스크롤
             if (window.location.hash) {
                 setTimeout(() => {
-                    scrollToSection(window.location.hash);
-                }, 300); // 페이지 로드 후 약간의 지연 시간을 줌
+                    try {
+                        scrollToSection(window.location.hash);
+                    } catch (e) {
+                        console.error('스크롤 오류:', e);
+                    }
+                }, 500); // 페이지 로드 후 약간의 지연 시간을 줌 (500ms로 증가)
             }
             
             // 로고 클릭 시 맨 위로 스크롤
             document.querySelector('.logo').addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // 부드러운 스크롤로 최상단으로 이동
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
@@ -1115,37 +1344,47 @@
             const programItems = document.querySelectorAll('.program-item');
             if (programItems.length > 0) {
                 programItems.forEach(item => {
+                    // 전체 항목 클릭 이벤트 처리 - 모바일 사용성 개선
+                    item.addEventListener('click', function(e) {
+                        handleProgramItemClick(this);
+                    });
+                    
                     // 항목 내 참여하기 버튼 클릭 이벤트 처리
                     const joinBtn = item.querySelector('.join-btn');
                     if (joinBtn) {
                         joinBtn.addEventListener('click', function(e) {
                             e.stopPropagation(); // 버블링 방지
-                            
-                            const token = localStorage.getItem('token');
-                            const movieTitle = item.querySelector('h4').textContent;
-                            const movieTime = item.querySelector('.time').textContent;
-                            
-                            if (token) {
-                                // 로그인 된 경우 - 결제 모달 표시 및 프로그램 정보 업데이트
-                                const paymentDetails = document.querySelector('.payment-details');
-                                if (paymentDetails) {
-                                    // 결제 정보에 선택한 프로그램 정보 추가
-                                    const programInfo = `<p><strong>프로그램:</strong> ${movieTitle} (${movieTime})</p>`;
-                                    paymentDetails.innerHTML = `
-                                        <p><strong>참가비:</strong> 10,000원</p>
-                                        <p><strong>계좌번호:</strong> 우리은행 1002-123-456789</p>
-                                        <p><strong>예금주:</strong> CINE'MO</p>
-                                        ${programInfo}
-                                    `;
-                                }
-                                paymentModal.style.display = 'flex';
-                            } else {
-                                // 로그인 필요한 경우 로그인 모달 표시
-                                loginModal.style.display = 'flex';
-                            }
+                            handleProgramItemClick(item);
                         });
                     }
                 });
+            }
+            
+            // 프로그램 항목 클릭 공통 처리 함수
+            function handleProgramItemClick(item) {
+                const token = localStorage.getItem('token');
+                const movieTitle = item.querySelector('h4').textContent;
+                const movieTime = item.querySelector('.time').textContent;
+                
+                if (token) {
+                    // 로그인 된 경우 - 결제 모달 표시 및 프로그램 정보 업데이트
+                    const paymentDetails = document.querySelector('.payment-details');
+                    if (paymentDetails) {
+                        // 결제 정보에 선택한 프로그램 정보 추가
+                        const programInfo = `<p><strong>프로그램:</strong> ${movieTitle} (${movieTime})</p>`;
+                        paymentDetails.innerHTML = `
+                            <p><strong>참가비:</strong> 10,000원</p>
+                            <p><strong>계좌번호:</strong> 우리은행 1002-123-456789</p>
+                            <p><strong>예금주:</strong> CINE'MO</p>
+                            ${programInfo}
+                        `;
+                    }
+                    paymentModal.style.display = 'flex';
+                } else {
+                    // 로그인 필요한 경우 로그인 모달 표시
+                    alert('로그인이 필요한 서비스입니다.');
+                    loginModal.style.display = 'flex';
+                }
             }
 
             // 프로그램 섹션 내 오버레이 버튼 클릭 핸들러
