@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "*.html",
+      "src": "index.html",
       "use": "@vercel/static"
     },
     {
@@ -14,7 +14,7 @@
       "use": "@vercel/static"
     },
     {
-      "src": "images/*",
+      "src": "images/**",
       "use": "@vercel/static"
     }
   ],
@@ -38,6 +38,14 @@
     {
       "src": "/api/check-payment",
       "dest": "/backend/api/check-payment.js"
+    },
+    {
+      "src": "/styles.css",
+      "dest": "/styles.css"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/images/$1"
     },
     {
       "src": "/(.*)",
