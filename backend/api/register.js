@@ -1,58 +1,5 @@
 // 간단한 회원가입 API 구현
-const fs = require('fs');
-const path = require('path');
-
-// 사용자 데이터 저장 파일 경로
-const dataFilePath = path.join(__dirname, '..', 'users.csv');
-
-// 사용자 데이터 저장 함수
-const saveUser = (user) => {
-  // CSV 형식으로 저장 (id,name,email,password)
-  const userData = `${Date.now()},${user.name},${user.email},${user.password}\n`;
-  
-  // 파일에 추가 (없으면 생성)
-  try {
-    // 파일이 존재하는지 확인
-    if (!fs.existsSync(dataFilePath)) {
-      // 헤더 추가
-      fs.writeFileSync(dataFilePath, 'id,name,email,password\n');
-    }
-    
-    // 사용자 데이터 추가
-    fs.appendFileSync(dataFilePath, userData);
-    return true;
-  } catch (error) {
-    console.error('사용자 저장 오류:', error);
-    return false;
-  }
-};
-
-// 이메일 중복 확인 함수
-const isEmailExists = (email) => {
-  try {
-    if (!fs.existsSync(dataFilePath)) {
-      return false;
-    }
-    
-    const data = fs.readFileSync(dataFilePath, 'utf8');
-    const lines = data.split('\n');
-    
-    // 첫 번째 줄은 헤더이므로 건너뜀
-    for (let i = 1; i < lines.length; i++) {
-      if (lines[i].trim() === '') continue;
-      
-      const fields = lines[i].split(',');
-      if (fields[2] === email) {
-        return true;
-      }
-    }
-    
-    return false;
-  } catch (error) {
-    console.error('이메일 중복 확인 오류:', error);
-    return false;
-  }
-};
+const userStore = require('../store/users');
 
 module.exports = (req, res) => {
   // CORS 헤더 설정
@@ -90,15 +37,23 @@ module.exports = (req, res) => {
     }
     
     // 이메일 중복 확인
-    if (isEmailExists(email)) {
+    if (userStore.isEmailExists(email)) {
       return res.status(409).json({ success: false, message: '이미 사용 중인 이메일입니다.' });
     }
     
     // 사용자 저장
-    const saveResult = saveUser({ name, email, password });
+    const user = userStore.addUser({ name, email, password });
     
-    if (saveResult) {
-      return res.status(201).json({ success: true, message: '회원가입이 완료되었습니다.' });
+    if (user) {
+      return res.status(201).json({ 
+        success: true, 
+        message: '회원가입이 완료되었습니다.',
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        }
+      });
     } else {
       return res.status(500).json({ success: false, message: '사용자 정보 저장 중 오류가 발생했습니다.' });
     }

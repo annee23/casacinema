@@ -1,40 +1,10 @@
 // 결제 상태 확인 API 구현
-const fs = require('fs');
-const path = require('path');
 const jwt = require('jsonwebtoken');
+const paymentStore = require('../store/payments');
+const userStore = require('../store/users');
 
 // JWT 서명 키
 const JWT_SECRET = 'cinemo-secret-key';
-
-// 결제 데이터 저장 파일 경로
-const dataFilePath = path.join(__dirname, '..', 'payments.csv');
-
-// 사용자 결제 정보 확인 함수
-const checkUserPayment = (userId) => {
-  try {
-    if (!fs.existsSync(dataFilePath)) {
-      return false;
-    }
-    
-    const data = fs.readFileSync(dataFilePath, 'utf8');
-    const lines = data.split('\n');
-    
-    // 첫 번째 줄은 헤더이므로 건너뜀
-    for (let i = 1; i < lines.length; i++) {
-      if (lines[i].trim() === '') continue;
-      
-      const fields = lines[i].split(',');
-      if (fields[1] === userId.toString()) {
-        return true;
-      }
-    }
-    
-    return false;
-  } catch (error) {
-    console.error('결제 정보 확인 오류:', error);
-    return false;
-  }
-};
 
 module.exports = (req, res) => {
   // CORS 헤더 설정
@@ -72,8 +42,8 @@ module.exports = (req, res) => {
         return res.status(401).json({ success: false, message: '유효하지 않은 인증 토큰입니다.' });
       }
       
-      // 사용자 결제 정보 확인
-      const hasPayment = checkUserPayment(decoded.userId);
+      // 사용자 결제 정보 확인 (메모리 기반 저장소 사용)
+      const hasPayment = paymentStore.checkUserPayment(decoded.userId);
       
       return res.status(200).json({
         success: true,

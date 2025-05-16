@@ -6,6 +6,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "backend/store/*.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "index.html",
       "use": "@vercel/static"
     },

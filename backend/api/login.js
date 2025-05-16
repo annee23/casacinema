@@ -1,15 +1,6 @@
 // 간단한 로그인 API 구현
 const jwt = require('jsonwebtoken');
-
-// 실제 DB 연동 대신 하드코딩된 사용자 목록
-const users = [
-  {
-    id: 1,
-    email: 'test@example.com',
-    password: 'test1234',
-    name: '테스트 사용자'
-  }
-];
+const userStore = require('../store/users');
 
 // JWT 서명 키 (실제 프로덕션에서는 환경 변수 등으로 관리해야 함)
 const JWT_SECRET = 'cinemo-secret-key';
@@ -38,8 +29,8 @@ module.exports = (req, res) => {
       return res.status(400).json({ success: false, message: '이메일과 비밀번호를 입력해주세요.' });
     }
     
-    // 사용자 확인
-    const user = users.find(u => u.email === email && u.password === password);
+    // 사용자 확인 (userStore 사용)
+    const user = userStore.findUserByCredentials(email, password);
     
     if (!user) {
       return res.status(401).json({ success: false, message: '이메일 또는 비밀번호가 일치하지 않습니다.' });
