@@ -888,7 +888,7 @@
                 const targetElement = document.querySelector(id);
                 if (targetElement) {
                     const headerHeight = document.querySelector('header').offsetHeight;
-                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
                     
                     window.scrollTo({
                         top: targetPosition,
