@@ -7,7 +7,10 @@
     "start": "node server/index.js",
     "server": "nodemon server/index.js",
     "dev": "concurrently \"npm run server\" \"lite-server\"",
-    "seed": "node server/seed/seed.js"
+    "seed": "node server/seed/seed.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d .",
+    "build": "echo 'Building static files...'"
   },
   "keywords": [
     "cinema",
@@ -19,19 +22,20 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.1.0",
+    "express-rate-limit": "^6.2.0",
+    "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.12",
-    "morgan": "^1.10.0",
-    "helmet": "^5.0.2",
-    "compression": "^1.7.4",
-    "express-rate-limit": "^6.2.0",
-    "express-mongo-sanitize": "^2.1.0"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
+    "gh-pages": "^6.3.0",
     "lite-server": "^2.6.1",
     "nodemon": "^2.0.14"
   },
@@ -45,5 +49,5 @@
   "bugs": {
     "url": "https://github.com/annee23/CasaCinema/issues"
   },
-  "homepage": "https://github.com/annee23/CasaCinema#readme"
+  "homepage": "https://annee23.github.io/CasaCinema"
 }
