@@ -12,7 +12,15 @@
     { "src": "images/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/backend/server.js" },
+    { 
+      "src": "/api/(.*)", 
+      "dest": "/backend/server.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+      }
+    },
     { "src": "/(css|js|images)/(.*)", "dest": "/$1/$2" },
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }
