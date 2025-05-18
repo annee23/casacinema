@@ -19,28 +19,28 @@ async function migratePrograms() {
         time: '8:30 PM ~ 10:00 PM',
         location: '신도림 롯데시네마',
         description: '마이클 하네케 감독의 대표작 상영회',
-        imageUrl: '../../images/test.png'
+        imageUrl: 'images/test.png'
       },
       {
         name: '그 자연이 네게 뭐라고 하니',
         time: '7:30 PM ~ 9:30 PM',
         location: '아트하우스 모모',
         description: '세월이 흘러도 변하지 않는 자연의 울림',
-        imageUrl: '../../images/test2.png'
+        imageUrl: 'images/test2.png'
       },
       {
         name: '상상마당',
         time: '8:00 PM ~ 9:00 PM',
         location: '상상마당 홍대',
         description: '독립영화 상영회 및 감독과의 대화',
-        imageUrl: '../../images/test3.png'
+        imageUrl: 'images/test3.png'
       },
       {
         name: '아멜리에',
         time: '9:50 AM ~ 11:50 AM',
         location: '에무시네마',
         description: '장 피에르 주네 감독의 프랑스 로맨틱 코미디',
-        imageUrl: '../../images/test4.png'
+        imageUrl: 'images/test4.png'
       }
     ];
     

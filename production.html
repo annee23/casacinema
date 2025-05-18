@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
-    <title>큐레이션 - CINE'MO</title>
+    <title>제작 - CINE'MO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>C</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Work+Sans:wght@300;400;500&family=Archivo+Black&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
@@ -23,9 +23,9 @@
                 <ul>
                     <li><a href="socialring.html">소셜링</a></li>
                     <li><a href="festival.html">영화제</a></li>
-                    <li><a href="production.html">제작</a></li>
+                    <li><a href="production.html" class="active">제작</a></li>
                     <li><a href="gallery.html">갤러리</a></li>
-                    <li><a href="curation.html" class="active">큐레이션</a></li>
+                    <li><a href="curation.html">큐레이션</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
@@ -69,92 +69,94 @@
     </div>
 
     <main>
-        <section class="categories-section">
+        <section class="services-section">
             <div class="section-intro">
-                <h2>영화 <span>카테고리</span></h2>
-                <p>당신의 취향에 맞는 영화를 발견하세요.</p>
+                <h2>영화 제작 <span>워크샵</span></h2>
+                <p>전문가와 함께하는 영화 제작의 모든 과정</p>
             </div>
             <div class="container">
-                <div class="coming-soon-overlay">
-                    <div class="coming-soon-text">
-                        <h3>영화 추천 서비스</h3>
-                        <p>COMING SOON</p>
-                        <p class="coming-soon-desc">더 나은 서비스로 곧 찾아뵙겠습니다.</p>
-                    </div>
-                </div>
-                <div class="categories-grid">
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <div class="category-circle"></div>
-                            <h4>액션</h4>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <div class="service-circle"></div>
                         </div>
-                        <h3>액션 영화 추천</h3>
-                        <p>긴장감 넘치는 액션 영화를 매주 추천해드립니다.</p>
-                        <a href="#" class="category-link">더 알아보기 →</a>
+                        <h3>시나리오 워크샵</h3>
+                        <p>영화의 시작, 시나리오 작성에 대한 모든 것을 배웁니다.</p>
+                        <ul class="service-features">
+                            <li>기초 작법 학습</li>
+                            <li>캐릭터 개발</li>
+                            <li>스토리 구조 설계</li>
+                        </ul>
+                        <a href="#" class="cta-button small">신청하기</a>
                     </div>
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <div class="category-circle"></div>
-                            <h4>로맨스</h4>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <div class="service-circle"></div>
                         </div>
-                        <h3>로맨스 영화 추천</h3>
-                        <p>감동적인 로맨스 영화로 마음을 따뜻하게 해보세요.</p>
-                        <a href="#" class="category-link">더 알아보기 →</a>
+                        <h3>촬영 기법</h3>
+                        <p>카메라 워크와 촬영 기법의 기본을 배웁니다.</p>
+                        <ul class="service-features">
+                            <li>구도와 프레이밍</li>
+                            <li>조명 설정</li>
+                            <li>카메라 움직임</li>
+                        </ul>
+                        <a href="#" class="cta-button small">신청하기</a>
                     </div>
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <div class="category-circle"></div>
-                            <h4>스릴러</h4>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <div class="service-circle"></div>
                         </div>
-                        <h3>스릴러 영화 추천</h3>
-                        <p>스릴러 영화로 짜릿한 경험을 해보세요.</p>
-                        <a href="#" class="category-link">더 알아보기 →</a>
+                        <h3>편집 마스터 클래스</h3>
+                        <p>영화 편집의 기술과 예술을 배웁니다.</p>
+                        <ul class="service-features">
+                            <li>편집 소프트웨어 활용</li>
+                            <li>리듬과 페이스 설정</li>
+                            <li>사운드 디자인</li>
+                        </ul>
+                        <a href="#" class="cta-button small">신청하기</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="curated-collections">
+        <section class="production-projects">
             <div class="section-intro">
-                <h2>큐레이션 <span>컬렉션</span></h2>
-                <p>CINE'MO 팀이 직접 선별한 특별 컬렉션</p>
+                <h2>제작 <span>프로젝트</span></h2>
+                <p>CINE'MO와 함께 진행한 단편 영화 프로젝트</p>
             </div>
             <div class="container">
-                <div class="collections-grid">
-                    <div class="collection-card">
-                        <div class="collection-image">
-                            <img src="../../images/test.png" alt="여름 영화 컬렉션">
-                            <div class="collection-overlay">
-                                <h3>무더운 여름을 위한 영화</h3>
-                            </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="images/test2.png" alt="프로젝트 1">
                         </div>
-                        <div class="collection-info">
-                            <p>더운 여름을 시원하게 만들어줄 영화 모음</p>
-                            <a href="#" class="cta-button small">보러가기</a>
-                        </div>
-                    </div>
-                    <div class="collection-card">
-                        <div class="collection-image">
-                            <img src="../../images/test2.png" alt="독립영화 컬렉션">
-                            <div class="collection-overlay">
-                                <h3>주목할 만한 독립영화</h3>
-                            </div>
-                        </div>
-                        <div class="collection-info">
-                            <p>상업영화에서 볼 수 없는 독특한 시선의 독립영화</p>
-                            <a href="#" class="cta-button small">보러가기</a>
+                        <div class="project-details">
+                            <h3>여름의 기억</h3>
+                            <p class="project-info">15분 | 드라마 | 2023</p>
+                            <p class="project-desc">어린 시절의 여름 방학에 대한 추억을 담은 단편 영화</p>
+                            <a href="#" class="cta-button small">더 알아보기</a>
                         </div>
                     </div>
-                    <div class="collection-card">
-                        <div class="collection-image">
-                            <img src="../../images/test3.png" alt="고전영화 컬렉션">
-                            <div class="collection-overlay">
-                                <h3>시대를 초월한 고전영화</h3>
-                            </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="images/test4.png" alt="프로젝트 2">
                         </div>
-                        <div class="collection-info">
-                            <p>지금 봐도 여전히 매력적인 고전 명작들</p>
-                            <a href="#" class="cta-button small">보러가기</a>
+                        <div class="project-details">
+                            <h3>빛의 춤</h3>
+                            <p class="project-info">12분 | 실험영화 | 2022</p>
+                            <p class="project-desc">빛과 그림자를 활용한 실험적 영상 작품</p>
+                            <a href="#" class="cta-button small">더 알아보기</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="images/test5.png" alt="프로젝트 3">
+                        </div>
+                        <div class="project-details">
+                            <h3>도시의 속삭임</h3>
+                            <p class="project-info">20분 | 다큐멘터리 | 2023</p>
+                            <p class="project-desc">서울의 숨겨진 일상을 담은 다큐멘터리</p>
+                            <a href="#" class="cta-button small">더 알아보기</a>
                         </div>
                     </div>
                 </div>
@@ -187,6 +189,6 @@
     </footer>
 
     <script src="script.js"></script>
-<script src="../js/script.js" defer></script>
+<script src="js/script.js" defer></script>
 </body>
 </html> 

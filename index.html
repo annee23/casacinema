@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
-    <title>CINE'MO</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>C</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Cinema</title>
+    <meta name="description" content="Casa Cinema - 영화를 사랑하는 사람들을 위한 공간">
+    <meta name="keywords" content="영화, 시네마, 문화, 예술, 영화제, 큐레이션">
+    <meta name="author" content="Casa Cinema">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Work+Sans:wght@300;400;500&family=Archivo+Black&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <script src="../js/script.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Chosunilbo_myungjo';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="container header-container">
-            <a href="#" class="logo-link"><div class="logo">CINE<span>'MO</span></div></a>
+            <a href="index.html" class="logo-link"><div class="logo">CINE<span>'MO</span></div></a>
             <div class="mobile-menu-toggle">
                 <span></span>
                 <span></span>
@@ -103,7 +113,7 @@
     <main>
         <section id="intro" class="hero">
             <!-- 필름롤 GIF 배경 -->
-            <img src="../../images/film_roll.gif" alt="Film Roll Background" class="film-background">
+            <img src="images/film_roll.gif" alt="Film Roll Background" class="film-background">
             
             <!-- 불투명 레이어 -->
             <div class="dark-overlay"></div>
@@ -146,7 +156,7 @@
                             <div class="movie-card">
                                 <div class="movie-poster">
                                     <video autoplay muted loop playsinline>
-                                        <source src="../../images/lounge.mp4" type="video/mp4">
+                                        <source src="images/lounge.mp4" type="video/mp4">
                                     </video>
                                     <div class="movie-date">5월 25일 23:30</div>
                                 </div>
@@ -164,7 +174,7 @@
                             </div>
                             <div class="movie-card">
                                 <div class="movie-poster">
-                                    <img src="../../images/test.png" alt="벌집의 정령 포스터">
+                                    <img src="images/test.png" alt="벌집의 정령 포스터">
                                     <div class="movie-date">6월 8일 23:30</div>
                                 </div>
                                 <div class="movie-info">
@@ -188,7 +198,7 @@
                             <p>6월의 밤, 별빛 아래에서 즐기는 특별한 영화 경험</p>
                         </div>
                         <div class="outdoor-banner">
-                            <img src="../../images/test5.png" alt="야외 상영회">
+                            <img src="images/test5.png" alt="야외 상영회">
                             <div class="outdoor-overlay">
                                 <h3>아트나인 야외 상영회</h3>
                                 <p>6월 15일 - 30일</p>
@@ -252,4 +262,4 @@
         </div>
     </footer>
 </body>
-</html>
+</html> 

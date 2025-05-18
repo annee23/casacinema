@@ -44,15 +44,48 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(compression()); // 응답 압축
 
-// 정적 파일 제공
-app.use(express.static(path.join(__dirname, '../public')));
+// 정적 파일 제공 - 루트 디렉토리로 변경
+app.use(express.static(path.join(__dirname, '..')));
 
 // API 라우트 설정
 app.use('/api', authRoutes);
 
+// 프로그램 API 라우트
+app.get('/api/programs', (req, res) => {
+  res.json({
+    success: true,
+    programs: [
+      {
+        name: '해피엔드',
+        time: '8:30 PM ~ 10:00 PM',
+        location: '신도림 롯데시네마',
+        imageUrl: 'images/test.png'
+      },
+      {
+        name: '그 자연이 네게 뭐라고 하니',
+        time: '7:30 PM ~ 9:30 PM',
+        location: '아트하우스 모모',
+        imageUrl: 'images/test2.png'
+      },
+      {
+        name: '상상마당',
+        time: '8:00 PM ~ 9:00 PM',
+        location: '상상마당 홍대',
+        imageUrl: 'images/test3.png'
+      },
+      {
+        name: '아멜리에',
+        time: '9:50 AM ~ 11:50 AM',
+        location: '에무시네마',
+        imageUrl: 'images/test4.png'
+      }
+    ]
+  });
+});
+
 // 모든 GET 요청에 대해 index.html 전송 (SPA 지원)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/index.html'));
+  res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // 404 에러 처리
@@ -68,7 +101,14 @@ app.use((err, req, res, next) => {
 
 // 서버 포트 설정 및 시작
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-  console.log(`http://localhost:${PORT}`);
-}); 
+
+// Vercel 서버리스 환경인 경우 직접 listen하지 않음
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
+    console.log(`http://localhost:${PORT}`);
+  });
+}
+
+// Vercel 서버리스 환경을 위한 export
+module.exports = app; 

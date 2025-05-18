@@ -60,7 +60,7 @@ function createProgramItem(program) {
   
   programItem.innerHTML = `
     <div class="program-image">
-      <img src="${program.imageUrl || '../../images/test.png'}" alt="${program.name}">
+      <img src="${program.imageUrl || 'images/test.png'}" alt="${program.name}">
     </div>
     <div class="program-details">
       <h4 class="program-name">${program.name}</h4>
@@ -86,25 +86,25 @@ function displayHardcodedPrograms() {
       name: '해피엔드',
       time: '8:30 PM ~ 10:00 PM',
       location: '신도림 롯데시네마',
-      imageUrl: '../../images/test.png'
+      imageUrl: 'images/test.png'
     },
     {
       name: '그 자연이 네게 뭐라고 하니',
       time: '7:30 PM ~ 9:30 PM',
       location: '아트하우스 모모',
-      imageUrl: '../../images/test2.png'
+      imageUrl: 'images/test2.png'
     },
     {
       name: '상상마당',
       time: '8:00 PM ~ 9:00 PM',
       location: '상상마당 홍대',
-      imageUrl: '../../images/test3.png'
+      imageUrl: 'images/test3.png'
     },
     {
       name: '아멜리에',
       time: '9:50 AM ~ 11:50 AM',
       location: '에무시네마',
-      imageUrl: '../../images/test4.png'
+      imageUrl: 'images/test4.png'
     }
   ];
   

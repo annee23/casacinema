@@ -1,5 +1,5 @@
 {
-  "name": "cinemo",
+  "name": "casacinema",
   "version": "0.0.1",
   "description": "영화 커뮤니티 웹사이트",
   "main": "backend/server.js",
@@ -8,9 +8,7 @@
     "server": "nodemon backend/server.js",
     "dev": "concurrently \"npm run server\" \"lite-server\"",
     "seed": "node backend/seed/seed.js",
-    "predeploy": "mkdir -p build && cp -r public/* build/",
-    "deploy": "gh-pages -d build",
-    "build": "mkdir -p build && cp -r public/* build/"
+    "build": "echo 'No build step required'"
   },
   "keywords": [
     "cinema",
@@ -35,7 +33,6 @@
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
-    "gh-pages": "^6.3.0",
     "lite-server": "^2.6.1",
     "nodemon": "^2.0.14"
   },
@@ -49,5 +46,5 @@
   "bugs": {
     "url": "https://github.com/annee23/CasaCinema/issues"
   },
-  "homepage": "https://annee23.github.io/CasaCinema"
+  "homepage": "https://casacinema.vercel.app"
 }

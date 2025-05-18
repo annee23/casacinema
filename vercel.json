@@ -6,5 +6,17 @@
   "github": {
     "silent": true
   },
-  "outputDirectory": "public"
+  "builds": [
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "css/**", "use": "@vercel/static" },
+    { "src": "js/**", "use": "@vercel/static" },
+    { "src": "images/**", "use": "@vercel/static" },
+    { "src": "backend/server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/server.js" },
+    { "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico))", "dest": "/$1" },
+    { "src": "/[^.]+", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
 } 
