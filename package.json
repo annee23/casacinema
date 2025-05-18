@@ -1,6 +1,6 @@
 {
   "name": "cinemo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "영화 커뮤니티 웹사이트",
   "main": "backend/server.js",
   "scripts": {
@@ -49,5 +49,5 @@
   "bugs": {
     "url": "https://github.com/annee23/CasaCinema/issues"
   },
-  "homepage": "https://annee23.github.io/CasaCinema/html/index.html"
+  "homepage": "https://annee23.github.io/CasaCinema"
 }
