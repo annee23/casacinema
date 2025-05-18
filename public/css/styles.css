@@ -83,6 +83,7 @@ header.scrolled {
     letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--light);
+    flex: 0 0 auto; /* 로고 크기 고정 */
 }
 
 .logo span {
@@ -101,7 +102,13 @@ nav {
     display: flex;
     justify-content: center;
     flex: 1;
-    padding-left: 80px;
+    padding-left: 0;
+    position: absolute; /* 절대 위치로 설정 */
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%); /* 세로 중앙 정렬 */
+    pointer-events: none; /* 클릭 이벤트가 뒤로 통과하도록 설정 */
 }
 
 nav ul {
@@ -110,6 +117,9 @@ nav ul {
     gap: 40px;
     justify-content: center;
     align-items: center;
+    padding: 0;
+    margin: 0 auto;
+    pointer-events: auto; /* 메뉴 항목은 클릭 가능하도록 복원 */
 }
 
 nav a {
@@ -163,6 +173,7 @@ nav li {
 .auth-buttons {
     display: flex;
     align-items: center;
+    justify-content: center; /* 중앙 정렬 추가 */
     gap: 10px;
 }
 
@@ -178,6 +189,7 @@ nav li {
     transition: all 0.3s;
     overflow: hidden;
     background-color: var(--red);
+    min-width: 80px; /* 최소 너비 추가 */
 }
 
 .buy-tickets:hover {
@@ -207,11 +219,12 @@ nav li {
 /* 모바일 메뉴 스타일 수정 */
 @media (max-width: 1024px) {
     nav {
-        padding-left: 40px;
+        padding-left: 0;
     }
     
     nav ul {
         gap: 30px;
+        margin: 0 auto;
     }
 }
 
@@ -254,6 +267,7 @@ nav li {
         z-index: 99;
         padding-left: 0;
         background: rgba(0,0,0,0.95);
+        transform: none; /* 모바일에서는 transform 제거 */
     }
     
     nav.active {
@@ -374,12 +388,16 @@ nav li {
 
     /* 모달 스타일 개선 - 다크모드 유지 */
     .modal-content {
-        background-color: rgba(20, 20, 20, 0.95);
+        background-color: rgba(0, 0, 0, 0.7); /* 더 투명한 검정색 배경 */
         color: var(--light);
-        box-shadow: 0 5px 25px rgba(0,0,0,0.4);
-        border: 1px solid rgba(91, 6, 22, 0.3);
-        border-radius: 8px;
-        padding: 25px;
+        padding: 25px; /* 패딩 축소 */
+        border-radius: 8px; /* 둥근 모서리 감소 */
+        width: 90%;
+        max-width: 380px; /* 최대 너비 감소 */
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); /* 그림자 가볍게 */
     }
     
     .modal h3 {
@@ -392,12 +410,19 @@ nav li {
     }
     
     .form-group input {
-        border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        width: 100%;
         background-color: transparent !important;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* 테두리 더 연하게 */
+        padding: 12px 0; /* 패딩 감소 */
         color: var(--light);
-        padding: 12px 0;
-        font-size: 15px;
+        font-size: 15px; /* 폰트 사이즈 감소 */
+        transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-bottom: 1px solid var(--red);
     }
 
     /* 모바일 카드 스타일 최적화 */
@@ -566,7 +591,7 @@ nav li {
 @media (max-width: 480px) {
     /* 작은 화면 폰트 및 여백 최적화 */
     body {
-        font-size: 14px;
+        padding-top: 70px;
     }
     
     header {
@@ -578,20 +603,18 @@ nav li {
     }
     
     .buy-tickets {
-        padding: 5px 10px;
-        font-size: 12px;
+        padding: 6px 12px;
     }
     
     .hero-title {
-        font-size: 30px;
-        line-height: 1.2;
+        font-size: 26px;
+        line-height: 1.35;
         margin-bottom: 15px;
     }
     
     .hero-tagline {
-        font-size: 11px;
-        letter-spacing: 1px;
-        margin-bottom: 15px;
+        font-size: 16px;
+        margin-bottom: 10px;
     }
     
     .hero-description {
@@ -601,22 +624,18 @@ nav li {
     }
     
     .cta-button {
-        padding: 12px 20px;
+        padding: 12px 25px;
         font-size: 13px;
-        width: 100%;
-        text-align: center;
     }
     
     .cta-button.small {
-        padding: 8px 15px;
+        padding: 10px 18px;
         font-size: 12px;
-        margin-top: 10px;
     }
     
-    /* 상영회 섹션 더욱 최적화 */
     .screening-tab {
-        padding: 8px 12px;
-        font-size: 13px;
+        font-size: 14px;
+        margin-right: 15px;
     }
     
     .midnight-intro h3, .outdoor-intro h3 {
@@ -625,6 +644,33 @@ nav li {
     
     .movie-poster {
         height: 180px;
+    }
+    
+    /* 폼 개선 */
+    .form-group input {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .join-form {
+        padding: 20px;
+    }
+    
+    /* 전용 모바일 스타일 */
+    .scroll-indicator {
+        display: none;
+    }
+    
+    .coming-soon-text {
+        padding: 25px;
+    }
+    
+    .coming-soon-text h3 {
+        font-size: 22px;
+    }
+    
+    .coming-soon-text p {
+        font-size: 24px;
     }
 }
 
@@ -1370,33 +1416,6 @@ section {
         width: 100%;
         margin-bottom: 10px;
     }
-    
-    /* 폼 개선 */
-    .form-group input {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
-    
-    .join-form {
-        padding: 20px;
-    }
-    
-    /* 전용 모바일 스타일 */
-    .scroll-indicator {
-        display: none;
-    }
-    
-    .coming-soon-text {
-        padding: 25px;
-    }
-    
-    .coming-soon-text h3 {
-        font-size: 22px;
-    }
-    
-    .coming-soon-text p {
-        font-size: 24px;
-    }
 }
 
 /* 터치 친화적인 요소들을 위한 스타일 */
@@ -1908,24 +1927,24 @@ section {
 }
 
 .modal-content {
-    background-color: var(--dark);
+    background-color: rgba(0, 0, 0, 0.7); /* 더 투명한 검정색 배경 */
     color: var(--light);
-    padding: 30px;
-    border-radius: 10px;
+    padding: 25px; /* 패딩 축소 */
+    border-radius: 8px; /* 둥근 모서리 감소 */
     width: 90%;
-    max-width: 400px;
+    max-width: 380px; /* 최대 너비 감소 */
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); /* 그림자 가볍게 */
 }
 
 .close-modal {
     position: absolute;
     top: 10px;
-    right: 20px;
-    font-size: 28px;
-    font-weight: 700;
+    right: 15px; /* 간격 조정 */
+    font-size: 24px; /* 크기 감소 */
+    font-weight: 500; /* 두께 감소 */
     cursor: pointer;
     color: var(--red);
 }
@@ -2017,17 +2036,17 @@ section {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* 마진 감소 */
 }
 
 .form-group input {
     width: 100%;
-    background-color: var(--dark) !important;
+    background-color: transparent !important;
     border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* 테두리 더 연하게 */
+    padding: 12px 0; /* 패딩 감소 */
     color: var(--light);
-    font-size: 16px;
+    font-size: 15px; /* 폰트 사이즈 감소 */
     transition: all 0.3s;
 }
 
@@ -2038,9 +2057,10 @@ section {
 
 @media (max-width: 768px) {
     .modal-content {
-        background-color: rgba(20, 20, 20, 0.95);
+        background-color: rgba(0, 0, 0, 0.7); /* 더 투명한 배경 */
         color: var(--light);
-        border: 1px solid rgba(91, 6, 22, 0.3);
+        border: 1px solid rgba(91, 6, 22, 0.2); /* 테두리 더 연하게 */
+        padding: 20px; /* 모바일에서 패딩 감소 */
     }
     
     .form-message {
@@ -2051,6 +2071,8 @@ section {
         background-color: transparent !important;
         color: var(--light);
         border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 10px 0; /* 모바일에서 패딩 감소 */
+        font-size: 14px; /* 모바일에서 폰트 사이즈 감소 */
     }
     
     .close-modal {
@@ -2452,12 +2474,28 @@ section {
     font-weight: 400;
 }
 
+.join-form {
+    background: rgba(20, 20, 20, 0.5); /* 더 투명하게 조정 */
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(91, 6, 22, 0.2);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.join-form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(91, 6, 22, 0.4);
+}
+
 .join-form h3 {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     font-size: 24px;
     margin-bottom: 30px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .tickets-section h2 {
@@ -2827,3 +2865,112 @@ footer {
         justify-content: center;
     }
 } 
+
+.join-section {
+    padding: 100px 0;
+    background: linear-gradient(to bottom, var(--dark), #121212);
+    position: relative;
+    overflow: hidden;
+}
+
+.join-section::before {
+    content: '';
+    position: absolute;
+    left: -5%;
+    bottom: 10%;
+    width: 300px;
+    height: 300px;
+    border: 2px solid var(--red);
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.join-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.join-text {
+    padding-right: 30px;
+}
+
+.join-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 40px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.join-text h2 span {
+    color: var(--red);
+    font-weight: 400;
+}
+
+.join-text p {
+    font-size: 18px;
+    color: var(--gray);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.benefits li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: var(--light);
+}
+
+.benefits li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+}
+
+.join-form .form-group input {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .join-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .join-text {
+        padding-right: 0;
+        text-align: center;
+    }
+    
+    .join-text h2 {
+        font-size: 32px;
+    }
+    
+    .benefits li {
+        text-align: left;
+        padding-left: 25px;
+    }
+    
+    .join-form {
+        padding: 30px;
+    }
+}

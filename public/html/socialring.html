@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Work+Sans:wght@300;400;500&family=Archivo+Black&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <header>
@@ -47,7 +47,9 @@
                     <input type="password" id="login-password" name="password" placeholder="비밀번호" required>
                 </div>
                 <div class="form-message" id="login-message"></div>
-                <button type="submit" class="cta-button">로그인</button>
+                <div class="form-button-center">
+                    <button type="submit" class="cta-button">로그인</button>
+                </div>
                 <div class="form-footer">
                     <a href="#join" class="close-and-redirect signup-link">회원이 아니신가요? 가입하기</a>
                 </div>
@@ -74,20 +76,13 @@
             </div>
             <div class="container">
                 <div class="program-schedule">
-                    <!-- 프로그램 내용을 가리는 오버레이 추가 - 기본적으로 숨김 상태로 변경 -->
-                    <div id="program-overlay" class="program-overlay" style="display: none;">
-                        <div class="overlay-content">
-                            <h3>프로그램 일정 확인하기</h3>
-                            <p>전체 프로그램 일정을 확인하시려면 로그인이 필요합니다.</p>
-                            <button id="login-required-btn" class="cta-button">로그인하기</button>
-                        </div>
-                    </div>
+                    <!-- 프로그램 내용을 가리는 오버레이 삭제 -->
 
                     <!-- 웹과 모바일 모두 호환되는 프로그램 목록 -->
                     <div class="program-list">
                         <div class="program-item-card">
                             <div class="program-image">
-                                <img src="images/test.png" alt="해피엔드">
+                                <img src="../../images/test.png" alt="해피엔드">
                             </div>
                             <div class="program-details">
                                 <h4 class="program-name">해피엔드</h4>
@@ -98,7 +93,7 @@
                         
                         <div class="program-item-card">
                             <div class="program-image">
-                                <img src="images/test2.png" alt="그 자연이 네게 뭐라고 하니">
+                                <img src="../../images/test2.png" alt="그 자연이 네게 뭐라고 하니">
                             </div>
                             <div class="program-details">
                                 <h4 class="program-name">그 자연이 네게 뭐라고 하니</h4>
@@ -109,7 +104,7 @@
                         
                         <div class="program-item-card">
                             <div class="program-image">
-                                <img src="images/test3.png" alt="상상마당">
+                                <img src="../../images/test3.png" alt="상상마당">
                             </div>
                             <div class="program-details">
                                 <h4 class="program-name">상상마당</h4>
@@ -120,7 +115,7 @@
                         
                         <div class="program-item-card">
                             <div class="program-image">
-                                <img src="images/test4.png" alt="아멜리에">
+                                <img src="../../images/test4.png" alt="아멜리에">
                             </div>
                             <div class="program-details">
                                 <h4 class="program-name">아멜리에</h4>
@@ -161,7 +156,9 @@
                             <input type="password" id="confirm-password" name="confirm-password" placeholder="비밀번호 확인" required>
                         </div>
                         <div class="form-message" id="signup-message"></div>
-                        <button type="submit" class="cta-button">가입하기</button>
+                        <div class="form-button-center">
+                            <button type="submit" class="cta-button">가입하기</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -193,5 +190,7 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="../js/script.js" defer></script>
+    <script src="../js/program.js" defer></script>
 </body>
 </html> 

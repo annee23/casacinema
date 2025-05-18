@@ -2,12 +2,12 @@
   "name": "cinemo",
   "version": "1.0.0",
   "description": "영화 커뮤니티 웹사이트",
-  "main": "server/index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server/index.js",
-    "server": "nodemon server/index.js",
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
     "dev": "concurrently \"npm run server\" \"lite-server\"",
-    "seed": "node server/seed/seed.js",
+    "seed": "node backend/seed/seed.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d .",
     "build": "echo 'Building static files...'"

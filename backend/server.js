@@ -42,14 +42,14 @@ app.use(morgan('dev'));
 app.use(compression()); // 응답 압축
 
 // 정적 파일 제공
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // API 라우트 설정
 app.use('/api', authRoutes);
 
 // 모든 GET 요청에 대해 index.html 전송 (SPA 지원)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, '../public/html/index.html'));
 });
 
 // 404 에러 처리
