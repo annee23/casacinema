@@ -24,11 +24,75 @@ document.addEventListener('DOMContentLoaded', function() {
     // 모바일 메뉴 토글 기능
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('nav');
+    let menuCloseTimer; // 메뉴 자동 닫힘 타이머
     
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', function() {
             this.classList.toggle('active');
             nav.classList.toggle('active');
+            
+            // 메뉴가 열렸을 때 3초 후 자동으로 닫히는 타이머 설정
+            if (nav.classList.contains('active')) {
+                // 이전 타이머가 있으면 제거
+                if (menuCloseTimer) {
+                    clearTimeout(menuCloseTimer);
+                }
+                
+                // 3초 후 메뉴 닫기
+                menuCloseTimer = setTimeout(() => {
+                    mobileMenuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                }, 3000);
+            } else {
+                // 메뉴가 닫히면 타이머 제거
+                if (menuCloseTimer) {
+                    clearTimeout(menuCloseTimer);
+                    menuCloseTimer = null;
+                }
+            }
+        });
+        
+        // 메뉴에 마우스를 올리면 타이머 재설정
+        nav.addEventListener('mouseenter', function() {
+            if (menuCloseTimer) {
+                clearTimeout(menuCloseTimer);
+                menuCloseTimer = null;
+            }
+        });
+        
+        // 메뉴에서 마우스가 나가면 타이머 다시 설정
+        nav.addEventListener('mouseleave', function() {
+            if (nav.classList.contains('active')) {
+                if (menuCloseTimer) {
+                    clearTimeout(menuCloseTimer);
+                }
+                
+                menuCloseTimer = setTimeout(() => {
+                    mobileMenuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                }, 3000);
+            }
+        });
+        
+        // 터치 이벤트도 처리 (모바일용)
+        nav.addEventListener('touchstart', function() {
+            if (menuCloseTimer) {
+                clearTimeout(menuCloseTimer);
+                menuCloseTimer = null;
+            }
+        });
+        
+        nav.addEventListener('touchend', function() {
+            if (nav.classList.contains('active')) {
+                if (menuCloseTimer) {
+                    clearTimeout(menuCloseTimer);
+                }
+                
+                menuCloseTimer = setTimeout(() => {
+                    mobileMenuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                }, 3000);
+            }
         });
         
         // 메뉴 항목 클릭 시 메뉴 닫기
@@ -55,6 +119,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 외부 페이지 링크면 메뉴만 닫기
                     mobileMenuToggle.classList.remove('active');
                     nav.classList.remove('active');
+                }
+                
+                // 타이머 제거
+                if (menuCloseTimer) {
+                    clearTimeout(menuCloseTimer);
+                    menuCloseTimer = null;
                 }
             });
         });
