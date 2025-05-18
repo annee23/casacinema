@@ -459,37 +459,61 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // 실제 서버 통신 대신 임시 로그인 처리 (개발 환경용)
-            try {
-                // 개발용 임시 출력
-                console.log('로그인 시도:', { email, password: '********' });
-                
-                // 서버 API 연결이 없을 경우 임시 로직
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userEmail', email);
-                
-                // 로그인 상태를 콘솔에서 확인
-                console.log('로그인 설정됨:', localStorage.getItem('isLoggedIn'));
-                
-                // 로그인 성공 메시지
-                loginMessage.textContent = '로그인 성공!';
-                loginMessage.style.color = 'green';
-                
-                // UI 업데이트
-                updateAuthUI(true, email);
-                
-                // 모달 닫기 (1초 후)
-                setTimeout(() => {
-                    document.getElementById('login-modal').style.display = 'none';
+            // 로그인 처리 - 서버 API 호출
+            loginMessage.textContent = '로그인 중...';
+            loginMessage.style.color = 'blue';
+            
+            // API 엔드포인트 URL
+            const apiUrl = '/api/auth/login';
+            
+            // API 요청 데이터
+            const loginData = {
+                email: email,
+                password: password
+            };
+            
+            // Fetch API를 사용하여 서버에 요청
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 로그인 성공
+                    loginMessage.textContent = '로그인 성공!';
+                    loginMessage.style.color = 'green';
                     
-                    // 페이지 새로고침 (UI 모두 업데이트)
-                    window.location.reload();
-                }, 1000);
-            } catch (error) {
+                    // 토큰 저장
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userName', data.user.name);
+                    localStorage.setItem('userEmail', data.user.email);
+                    
+                    // UI 업데이트
+                    updateAuthUI(true, data.user.name);
+                    
+                    // 모달 닫기 (1초 후)
+                    setTimeout(() => {
+                        document.getElementById('login-modal').style.display = 'none';
+                        
+                        // 페이지 새로고침 (UI 모두 업데이트)
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    // 로그인 실패
+                    loginMessage.textContent = data.message || '이메일 또는 비밀번호가 올바르지 않습니다.';
+                    loginMessage.style.color = 'red';
+                }
+            })
+            .catch(error => {
                 console.error('로그인 처리 오류:', error);
-                loginMessage.textContent = '로그인 처리 중 오류가 발생했습니다.';
+                loginMessage.textContent = '서버 연결 오류가 발생했습니다.';
                 loginMessage.style.color = 'red';
-            }
+            });
         });
     }
     
@@ -519,37 +543,64 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // 실제 서버 통신 대신 임시 회원가입 처리 (개발 환경용)
-            try {
-                // 개발용 임시 출력
-                console.log('회원가입 정보:', { name, email, password: '********' });
-                
-                // 서버 API 연결이 없을 경우 임시 로직
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userName', name);
-                localStorage.setItem('userEmail', email);
-                
-                // 회원가입 성공 메시지
-                signupMessage.textContent = '회원가입 성공! 자동 로그인됩니다.';
-                signupMessage.style.color = 'green';
-                
-                // UI 업데이트
-                updateAuthUI(true, email);
-                
-                // 1초 후 메인 페이지로 이동
-                setTimeout(() => {
-                    // 현재 페이지가 index.html이면 페이지 새로고침, 아니면 index.html로 이동
-                    if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
-                        window.location.reload();
-                    } else {
-                        window.location.href = 'index.html';
-                    }
-                }, 1000);
-            } catch (error) {
+            // 회원가입 처리 - 서버 API 호출
+            signupMessage.textContent = '처리 중...';
+            signupMessage.style.color = 'blue';
+            
+            // API 엔드포인트 URL
+            const apiUrl = '/api/auth/register';
+            
+            // API 요청 데이터
+            const userData = {
+                name: name,
+                email: email,
+                password: password
+            };
+            
+            // Fetch API를 사용하여 서버에 요청
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 회원가입 성공
+                    signupMessage.textContent = '회원가입 성공! 자동 로그인됩니다.';
+                    signupMessage.style.color = 'green';
+                    
+                    // 토큰 저장
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userName', data.user.name);
+                    localStorage.setItem('userEmail', data.user.email);
+                    
+                    // UI 업데이트
+                    updateAuthUI(true, data.user.name);
+                    
+                    // 1초 후 메인 페이지로 이동
+                    setTimeout(() => {
+                        // 현재 페이지가 index.html이면 페이지 새로고침, 아니면 index.html로 이동
+                        if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
+                            window.location.reload();
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 1000);
+                } else {
+                    // 회원가입 실패
+                    signupMessage.textContent = data.message || '회원가입 처리 중 오류가 발생했습니다.';
+                    signupMessage.style.color = 'red';
+                }
+            })
+            .catch(error => {
                 console.error('회원가입 처리 오류:', error);
-                signupMessage.textContent = '회원가입 처리 중 오류가 발생했습니다.';
+                signupMessage.textContent = '서버 연결 오류가 발생했습니다.';
                 signupMessage.style.color = 'red';
-            }
+            });
         });
     }
     
