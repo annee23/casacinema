@@ -472,6 +472,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password
             };
             
+            console.log('로그인 요청 전송:', apiUrl);
+            
             // Fetch API를 사용하여 서버에 요청
             fetch(apiUrl, {
                 method: 'POST',
@@ -480,9 +482,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify(loginData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            .then(response => {
+                console.log('로그인 응답 상태:', response.status);
+                // 응답 본문 반환
+                return response.json().then(data => {
+                    // status와 data를 함께 반환
+                    return { status: response.status, data };
+                });
+            })
+            .then(({ status, data }) => {
+                console.log('로그인 응답 데이터:', data);
+                
+                if (status === 200 && data.success) {
                     // 로그인 성공
                     loginMessage.textContent = '로그인 성공!';
                     loginMessage.style.color = 'green';
@@ -557,6 +568,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password
             };
             
+            console.log('회원가입 요청 전송:', apiUrl);
+            
             // Fetch API를 사용하여 서버에 요청
             fetch(apiUrl, {
                 method: 'POST',
@@ -565,9 +578,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify(userData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            .then(response => {
+                console.log('회원가입 응답 상태:', response.status);
+                // 응답 본문 반환
+                return response.json().then(data => {
+                    // status와 data를 함께 반환
+                    return { status: response.status, data };
+                });
+            })
+            .then(({ status, data }) => {
+                console.log('회원가입 응답 데이터:', data);
+                
+                if (status === 201 || (status === 200 && data.success)) {
                     // 회원가입 성공
                     signupMessage.textContent = '회원가입 성공! 자동 로그인됩니다.';
                     signupMessage.style.color = 'green';

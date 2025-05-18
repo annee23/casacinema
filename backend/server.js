@@ -17,6 +17,14 @@ const app = express();
 // Vercel 서버리스 환경 확인
 const isVercel = process.env.VERCEL === '1';
 
+// 환경 변수 로깅
+console.log('환경 변수 상태:', {
+  NODE_ENV: process.env.NODE_ENV || '설정되지 않음',
+  VERCEL: process.env.VERCEL || '설정되지 않음',
+  MONGODB_URI: process.env.MONGODB_URI ? '설정됨' : '설정되지 않음',
+  JWT_SECRET: process.env.JWT_SECRET ? '설정됨' : '설정되지 않음'
+});
+
 // MongoDB 연결
 const connectDB = require('./config/db');
 // Vercel 배포시 DB 연결 실패해도 앱은 실행되도록 비동기로 처리
@@ -25,34 +33,23 @@ connectDB().catch(err => console.error('MongoDB 연결 오류:', err));
 // 인증 라우트 모듈 불러오기
 const authRoutes = require('./routes/authRoutes');
 
-// 보안 미들웨어 설정
-app.use(helmet({ 
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      imgSrc: ["'self'", 'data:', 'blob:', 'https://images.unsplash.com'],
-      connectSrc: ["'self'", 'https://api.example.com']
-    }
-  }
-}));
-app.use(mongoSanitize()); // NoSQL 인젝션 방지
-
-// CORS 설정
+// 기본 미들웨어 설정 (CORS를 먼저 설정)
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://casacinema.vercel.app', /\.casacinema\.vercel\.app$/] 
-    : '*',
+  origin: '*', // 모든 출처 허용 (개발 및 테스트용)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// 보안 미들웨어 설정
+app.use(helmet({ 
+  contentSecurityPolicy: false // 개발 단계에서는 CSP 비활성화
+}));
+app.use(mongoSanitize()); // NoSQL 인젝션 방지
+
 // API 요청 속도 제한
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15분
-  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // 프로덕션에서는 더 낮게 설정
+  max: 1000, // 개발 테스트용으로 높게 설정
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, message: '너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해주세요.' }
@@ -62,13 +59,21 @@ app.use('/api', limiter);
 // 기본 미들웨어 설정
 app.use(express.json({ limit: '1mb' })); // 요청 바디 크기 제한
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(morgan('dev')); // 항상 개발 로그 형식 사용
 app.use(compression()); // 응답 압축
 
 // 정적 파일 제공 - 루트 디렉토리로 변경
-app.use(express.static(path.join(__dirname, '..'), {
-  maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0 // 프로덕션에서는 캐싱 적용
-}));
+app.use(express.static(path.join(__dirname, '..')));
+
+// 상태 확인 엔드포인트 (인증 불필요)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'CasaCinema API가 정상 작동 중입니다.',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
+});
 
 // API 라우트 설정
 app.use('/api/auth', authRoutes);
@@ -110,13 +115,16 @@ app.get('/api/programs', (req, res) => {
   });
 });
 
-// 상태 확인 엔드포인트
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'CasaCinema API가 정상 작동 중입니다.',
-    environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
+// 디버그 엔드포인트
+app.get('/api/debug', (req, res) => {
+  res.json({
+    headers: req.headers,
+    env: {
+      NODE_ENV: process.env.NODE_ENV || '설정되지 않음',
+      VERCEL: process.env.VERCEL || '설정되지 않음',
+      MONGODB_URI: process.env.MONGODB_URI ? '설정됨' : '설정되지 않음',
+      JWT_SECRET: process.env.JWT_SECRET ? '설정됨' : '설정되지 않음'
+    }
   });
 });
 
@@ -132,7 +140,7 @@ app.use((req, res) => {
 
 // 에러 핸들러
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('서버 오류:', err);
   
   // MongoDB 연결 오류 처리
   if (err.name === 'MongoError' || err.name === 'MongooseError') {
@@ -144,9 +152,8 @@ app.use((err, req, res, next) => {
   
   res.status(500).json({ 
     success: false, 
-    message: process.env.NODE_ENV === 'production' 
-      ? '서버 오류가 발생했습니다.' 
-      : err.message || '서버 오류가 발생했습니다.' 
+    message: '서버 오류가 발생했습니다.',
+    error: process.env.NODE_ENV !== 'production' ? err.message : undefined
   });
 });
 
