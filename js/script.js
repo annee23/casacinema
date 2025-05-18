@@ -119,13 +119,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // 로그인 모달 기능
-    const signupButton = document.querySelector('.buy-tickets');
+    const loginButton = document.getElementById('login-button');
     const loginModal = document.getElementById('login-modal');
     const closeModal = document.querySelector('.close-modal');
     const closeAndRedirect = document.querySelector('.close-and-redirect');
     
-    if (signupButton && loginModal) {
-        signupButton.addEventListener('click', function(e) {
+    console.log('모달 요소 확인:', { 
+        loginButton: loginButton ? '존재함' : '없음',
+        loginModal: loginModal ? '존재함' : '없음',
+        closeModal: closeModal ? '존재함' : '없음'
+    });
+    
+    if (loginButton && loginModal) {
+        console.log('로그인 버튼에 이벤트 리스너 등록');
+        loginButton.addEventListener('click', function(e) {
             e.preventDefault();
             loginModal.style.display = 'flex';
         });
@@ -236,9 +243,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 인증 상태에 따른 UI 업데이트
     function updateAuthUI(isLoggedIn, username) {
-        const signupButton = document.querySelector('.buy-tickets');
+        console.log('UI 업데이트 시작:', isLoggedIn);
+        
+        const loginButton = document.getElementById('login-button');
         const footerLoginBtn = document.getElementById('footer-login');
         const authButtonsContainer = document.querySelector('.auth-buttons');
+        
+        console.log('버튼 요소 확인:', { 
+            loginButton: loginButton ? '존재함' : '없음', 
+            footerLoginBtn: footerLoginBtn ? '존재함' : '없음',
+            authButtonsContainer: authButtonsContainer ? '존재함' : '없음'
+        });
         
         if (isLoggedIn) {
             // 마이페이지와 알림 아이콘 추가
@@ -282,9 +297,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // 아이콘 삽입 (로그인 버튼 앞에)
-                if (signupButton) {
-                    authButtonsContainer.insertBefore(myPageIcon, signupButton);
-                    authButtonsContainer.insertBefore(notificationIcon, signupButton);
+                if (loginButton) {
+                    authButtonsContainer.insertBefore(myPageIcon, loginButton);
+                    authButtonsContainer.insertBefore(notificationIcon, loginButton);
+                    console.log('아이콘 추가 완료');
                 }
                 
                 // 아이콘에 CSS 스타일 적용 (중복 방지)
@@ -322,17 +338,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // 로그인/로그아웃 버튼 변경
-            if (signupButton) {
-                signupButton.querySelector('span').textContent = '로그아웃';
+            if (loginButton) {
+                console.log('로그인 버튼 텍스트 변경: 로그아웃으로');
+                const spanElement = loginButton.querySelector('span');
+                if (spanElement) {
+                    spanElement.textContent = '로그아웃';
+                } else {
+                    console.error('span 요소를 찾을 수 없음');
+                    loginButton.textContent = '로그아웃';
+                }
                 
                 // 이전 이벤트 리스너 제거 (클론 후 교체 방식으로 확실하게)
-                const newButton = signupButton.cloneNode(true);
-                signupButton.parentNode.replaceChild(newButton, signupButton);
+                const newButton = loginButton.cloneNode(true);
+                loginButton.parentNode.replaceChild(newButton, loginButton);
                 
                 // 로그아웃 이벤트 리스너 추가
                 newButton.addEventListener('click', function(e) {
                     e.preventDefault();
-                    document.getElementById('logout-notification').style.display = 'flex';
+                    console.log('로그아웃 버튼 클릭됨');
+                    const logoutNotification = document.getElementById('logout-notification');
+                    if (logoutNotification) {
+                        logoutNotification.style.display = 'flex';
+                    } else {
+                        console.error('로그아웃 알림 요소를 찾을 수 없음');
+                    }
                 });
             }
             
@@ -347,7 +376,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 푸터 로그아웃 버튼 클릭 이벤트
                 newFooterBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    document.getElementById('logout-notification').style.display = 'flex';
+                    const logoutNotification = document.getElementById('logout-notification');
+                    if (logoutNotification) {
+                        logoutNotification.style.display = 'flex';
+                    }
                 });
             }
         } else {
@@ -358,17 +390,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // 로그인/로그아웃 버튼 복원
-            if (signupButton) {
-                signupButton.querySelector('span').textContent = '로그인';
+            if (loginButton) {
+                console.log('로그인 버튼 텍스트 변경: 로그인으로');
+                const spanElement = loginButton.querySelector('span');
+                if (spanElement) {
+                    spanElement.textContent = '로그인';
+                } else {
+                    console.error('span 요소를 찾을 수 없음');
+                    loginButton.textContent = '로그인';
+                }
                 
                 // 이전 이벤트 리스너 제거 (클론 후 교체 방식으로 확실하게)
-                const newButton = signupButton.cloneNode(true);
-                signupButton.parentNode.replaceChild(newButton, signupButton);
+                const newButton = loginButton.cloneNode(true);
+                loginButton.parentNode.replaceChild(newButton, loginButton);
                 
                 // 로그인 이벤트 리스너 추가
                 newButton.addEventListener('click', function(e) {
                     e.preventDefault();
-                    document.getElementById('login-modal').style.display = 'flex';
+                    console.log('로그인 버튼 클릭됨');
+                    const loginModal = document.getElementById('login-modal');
+                    if (loginModal) {
+                        loginModal.style.display = 'flex';
+                    } else {
+                        console.error('로그인 모달을 찾을 수 없음');
+                    }
                 });
             }
             
@@ -383,7 +428,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 푸터 로그인 버튼 클릭 이벤트
                 newFooterBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    document.getElementById('login-modal').style.display = 'flex';
+                    const loginModal = document.getElementById('login-modal');
+                    if (loginModal) {
+                        loginModal.style.display = 'flex';
+                    }
                 });
             }
         }
@@ -391,6 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 페이지 로드 시 로그인 상태 확인 및 UI 업데이트
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    console.log('로그인 상태 확인:', isLoggedIn);
     updateAuthUI(isLoggedIn);
     
     // 로그인 폼 제출 이벤트 처리
@@ -418,6 +467,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 서버 API 연결이 없을 경우 임시 로직
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
+                
+                // 로그인 상태를 콘솔에서 확인
+                console.log('로그인 설정됨:', localStorage.getItem('isLoggedIn'));
                 
                 // 로그인 성공 메시지
                 loginMessage.textContent = '로그인 성공!';
