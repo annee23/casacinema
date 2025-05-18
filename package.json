@@ -8,9 +8,9 @@
     "server": "nodemon backend/server.js",
     "dev": "concurrently \"npm run server\" \"lite-server\"",
     "seed": "node backend/seed/seed.js",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d .",
-    "build": "echo 'Building static files...'"
+    "predeploy": "mkdir -p build && cp -r public/* build/",
+    "deploy": "gh-pages -d build",
+    "build": "mkdir -p build && cp -r public/* build/"
   },
   "keywords": [
     "cinema",
@@ -49,5 +49,5 @@
   "bugs": {
     "url": "https://github.com/annee23/CasaCinema/issues"
   },
-  "homepage": "https://annee23.github.io/CasaCinema"
+  "homepage": "https://annee23.github.io/CasaCinema/html/index.html"
 }

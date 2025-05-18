@@ -11,18 +11,21 @@ const dotenv = require('dotenv');
 // 환경 변수 로드
 dotenv.config();
 
+// Express 애플리케이션 생성
+const app = express();
+
 // MongoDB 연결
 const connectDB = require('./config/db');
-connectDB();
+// Vercel 배포시 DB 연결 실패해도 앱은 실행되도록 비동기로 처리
+connectDB().catch(err => console.error('MongoDB 연결 오류:', err));
 
 // 인증 라우트 모듈 불러오기
 const authRoutes = require('./routes/authRoutes');
 
-// Express 애플리케이션 생성
-const app = express();
-
 // 보안 미들웨어 설정
-app.use(helmet()); // 보안 헤더 설정
+app.use(helmet({ 
+  contentSecurityPolicy: false 
+})); // 보안 헤더 설정
 app.use(mongoSanitize()); // NoSQL 인젝션 방지
 
 // API 요청 속도 제한
