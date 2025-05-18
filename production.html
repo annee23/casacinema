@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
+    <title>제작 - CINE'MO</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>C</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Work+Sans:wght@300;400;500&family=Archivo+Black&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo-link"><div class="logo">CINE<span>'MO</span></div></a>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="socialring.html">소셜링</a></li>
+                    <li><a href="festival.html">영화제</a></li>
+                    <li><a href="production.html" class="active">제작</a></li>
+                    <li><a href="gallery.html">갤러리</a></li>
+                    <li><a href="curation.html">큐레이션</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="buy-tickets" id="login-button"><span>로그인</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 로그인 모달 -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>로그인</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" id="login-email" name="email" placeholder="이메일" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" name="password" placeholder="비밀번호" required>
+                </div>
+                <div class="form-message" id="login-message"></div>
+                <button type="submit" class="cta-button">로그인</button>
+                <div class="form-footer">
+                    <a href="#join" class="close-and-redirect signup-link">회원이 아니신가요? 가입하기</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 로그아웃 알림 -->
+    <div id="logout-notification" class="notification">
+        <div class="notification-content">
+            <p>정말 로그아웃 하시겠습니까?</p>
+            <div class="notification-buttons">
+                <button id="logout-cancel" class="notification-button secondary">취소</button>
+                <button id="logout-confirm" class="notification-button">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="services-section">
+            <div class="section-intro">
+                <h2>영화 제작 <span>워크샵</span></h2>
+                <p>전문가와 함께하는 영화 제작의 모든 과정</p>
+            </div>
+            <div class="container">
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <div class="service-circle"></div>
+                        </div>
+                        <h3>시나리오 워크샵</h3>
+                        <p>영화의 시작, 시나리오 작성에 대한 모든 것을 배웁니다.</p>
+                        <ul class="service-features">
+                            <li>기초 작법 학습</li>
+                            <li>캐릭터 개발</li>
+                            <li>스토리 구조 설계</li>
+                        </ul>
+                        <a href="#" class="cta-button small">신청하기</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <div class="service-circle"></div>
+                        </div>
+                        <h3>촬영 기법</h3>
+                        <p>카메라 워크와 촬영 기법의 기본을 배웁니다.</p>
+                        <ul class="service-features">
+                            <li>구도와 프레이밍</li>
+                            <li>조명 설정</li>
+                            <li>카메라 움직임</li>
+                        </ul>
+                        <a href="#" class="cta-button small">신청하기</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <div class="service-circle"></div>
+                        </div>
+                        <h3>편집 마스터 클래스</h3>
+                        <p>영화 편집의 기술과 예술을 배웁니다.</p>
+                        <ul class="service-features">
+                            <li>편집 소프트웨어 활용</li>
+                            <li>리듬과 페이스 설정</li>
+                            <li>사운드 디자인</li>
+                        </ul>
+                        <a href="#" class="cta-button small">신청하기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="production-projects">
+            <div class="section-intro">
+                <h2>제작 <span>프로젝트</span></h2>
+                <p>CINE'MO와 함께 진행한 단편 영화 프로젝트</p>
+            </div>
+            <div class="container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="images/test2.png" alt="프로젝트 1">
+                        </div>
+                        <div class="project-details">
+                            <h3>여름의 기억</h3>
+                            <p class="project-info">15분 | 드라마 | 2023</p>
+                            <p class="project-desc">어린 시절의 여름 방학에 대한 추억을 담은 단편 영화</p>
+                            <a href="#" class="cta-button small">더 알아보기</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="images/test4.png" alt="프로젝트 2">
+                        </div>
+                        <div class="project-details">
+                            <h3>빛의 춤</h3>
+                            <p class="project-info">12분 | 실험영화 | 2022</p>
+                            <p class="project-desc">빛과 그림자를 활용한 실험적 영상 작품</p>
+                            <a href="#" class="cta-button small">더 알아보기</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="images/test5.png" alt="프로젝트 3">
+                        </div>
+                        <div class="project-details">
+                            <h3>도시의 속삭임</h3>
+                            <p class="project-info">20분 | 다큐멘터리 | 2023</p>
+                            <p class="project-desc">서울의 숨겨진 일상을 담은 다큐멘터리</p>
+                            <a href="#" class="cta-button small">더 알아보기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">CINE<span>'MO</span></div>
+                <div class="footer-links">
+                    <a href="socialring.html">소셜링</a>
+                    <a href="festival.html">영화제</a>
+                    <a href="production.html">제작</a>
+                    <a href="gallery.html">갤러리</a>
+                    <a href="curation.html">큐레이션</a>
+                    <a href="#" id="footer-login">로그인</a>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">YouTube</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 CINE'MO. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
+    <title>소셜링 - CINE'MO</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>C</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Work+Sans:wght@300;400;500&family=Archivo+Black&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo-link"><div class="logo">CINE<span>'MO</span></div></a>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="socialring.html" class="active">소셜링</a></li>
+                    <li><a href="festival.html">영화제</a></li>
+                    <li><a href="production.html">제작</a></li>
+                    <li><a href="gallery.html">갤러리</a></li>
+                    <li><a href="curation.html">큐레이션</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="buy-tickets" id="login-button"><span>로그인</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 로그인 모달 -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>로그인</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" id="login-email" name="email" placeholder="이메일" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" name="password" placeholder="비밀번호" required>
+                </div>
+                <div class="form-message" id="login-message"></div>
+                <button type="submit" class="cta-button">로그인</button>
+                <div class="form-footer">
+                    <a href="#join" class="close-and-redirect signup-link">회원이 아니신가요? 가입하기</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 로그아웃 알림 -->
+    <div id="logout-notification" class="notification">
+        <div class="notification-content">
+            <p>정말 로그아웃 하시겠습니까?</p>
+            <div class="notification-buttons">
+                <button id="logout-cancel" class="notification-button secondary">취소</button>
+                <button id="logout-confirm" class="notification-button">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="canva-section">
+            <div class="section-intro">
+                <h2>프로그램 <span>목록</span></h2>
+                <p>다양한 영화 관람 프로그램을 확인하세요.</p>
+            </div>
+            <div class="container">
+                <div class="program-schedule">
+                    <!-- 프로그램 내용을 가리는 오버레이 추가 - 기본적으로 숨김 상태로 변경 -->
+                    <div id="program-overlay" class="program-overlay" style="display: none;">
+                        <div class="overlay-content">
+                            <h3>프로그램 일정 확인하기</h3>
+                            <p>전체 프로그램 일정을 확인하시려면 로그인이 필요합니다.</p>
+                            <button id="login-required-btn" class="cta-button">로그인하기</button>
+                        </div>
+                    </div>
+
+                    <!-- 웹과 모바일 모두 호환되는 프로그램 목록 -->
+                    <div class="program-list">
+                        <div class="program-item-card">
+                            <div class="program-image">
+                                <img src="images/test.png" alt="해피엔드">
+                            </div>
+                            <div class="program-details">
+                                <h4 class="program-name">해피엔드</h4>
+                                <p class="program-time">8:30 PM ~ 10:00 PM</p>
+                                <p class="program-location">신도림 롯데시네마</p>
+                            </div>
+                        </div>
+                        
+                        <div class="program-item-card">
+                            <div class="program-image">
+                                <img src="images/test2.png" alt="그 자연이 네게 뭐라고 하니">
+                            </div>
+                            <div class="program-details">
+                                <h4 class="program-name">그 자연이 네게 뭐라고 하니</h4>
+                                <p class="program-time">7:30 PM ~ 9:30 PM</p>
+                                <p class="program-location">아트하우스 모모</p>
+                            </div>
+                        </div>
+                        
+                        <div class="program-item-card">
+                            <div class="program-image">
+                                <img src="images/test3.png" alt="상상마당">
+                            </div>
+                            <div class="program-details">
+                                <h4 class="program-name">상상마당</h4>
+                                <p class="program-time">8:00 PM ~ 9:00 PM</p>
+                                <p class="program-location">상상마당 홍대</p>
+                            </div>
+                        </div>
+                        
+                        <div class="program-item-card">
+                            <div class="program-image">
+                                <img src="images/test4.png" alt="아멜리에">
+                            </div>
+                            <div class="program-details">
+                                <h4 class="program-name">아멜리에</h4>
+                                <p class="program-time">9:50 AM ~ 11:50 AM</p>
+                                <p class="program-location">에무시네마</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="join-section">
+            <div class="container join-container">
+                <div class="join-text">
+                    <h2>CINE<span>'MO</span>와 함께하세요</h2>
+                    <p>매달 새로운 영화 경험과 다양한 혜택을 제공해 드립니다.</p>
+                    <ul class="benefits">
+                        <li>독점 영화 시사회 초대</li>
+                        <li>영화 제작자 및 배우들과의 만남</li>
+                        <li>영화 관련 워크샵 참여 기회</li>
+                        <li>영화 추천 및 비평 커뮤니티</li>
+                    </ul>
+                </div>
+                <div class="join-form">
+                    <form id="signup-form">
+                        <h3>회원 가입</h3>
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="이름" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="이메일" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" name="password" placeholder="비밀번호" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirm-password" name="confirm-password" placeholder="비밀번호 확인" required>
+                        </div>
+                        <div class="form-message" id="signup-message"></div>
+                        <button type="submit" class="cta-button">가입하기</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">CINE<span>'MO</span></div>
+                <div class="footer-links">
+                    <a href="socialring.html">소셜링</a>
+                    <a href="festival.html">영화제</a>
+                    <a href="production.html">제작</a>
+                    <a href="gallery.html">갤러리</a>
+                    <a href="curation.html">큐레이션</a>
+                    <a href="#" id="footer-login">로그인</a>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">YouTube</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 CINE'MO. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
