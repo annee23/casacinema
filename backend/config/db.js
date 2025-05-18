@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    // MongoDB URI - 환경 변수에서 가져오거나 기본값 사용
-    const mongoURI = process.env.MONGO_URI || 'mongodb+srv://admin:adminPassword@cluster0.mongodb.net/casacinema?retryWrites=true&w=majority';
+    // MongoDB URI - 환경 변수에서 가져오기
+    const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://admin:adminPassword@cluster0.mongodb.net/casacinema?retryWrites=true&w=majority';
     
     const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
