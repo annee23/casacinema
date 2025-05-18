@@ -37,8 +37,13 @@ const authRoutes = require('./routes/authRoutes');
 app.use(cors({
   origin: '*', // 모든 출처 허용 (개발 및 테스트용)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
+
+// CORS 프리플라이트 요청 처리
+app.options('*', cors());
 
 // 보안 미들웨어 설정
 app.use(helmet({ 
@@ -67,6 +72,11 @@ app.use(express.static(path.join(__dirname, '..')));
 
 // 상태 확인 엔드포인트 (인증 불필요)
 app.get('/api/health', (req, res) => {
+  // CORS 헤더 설정
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
   res.status(200).json({
     success: true,
     message: 'CasaCinema API가 정상 작동 중입니다.',
@@ -117,6 +127,11 @@ app.get('/api/programs', (req, res) => {
 
 // 디버그 엔드포인트
 app.get('/api/debug', (req, res) => {
+  // CORS 헤더 설정
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
   res.json({
     headers: req.headers,
     env: {
